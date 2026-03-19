@@ -3,107 +3,78 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NabungYUK! - Dark Amber Edition</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700;900&display=swap" rel="stylesheet">
+    <title>NabungYUK! - Final Amber Chaos</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@900&display=swap" rel="stylesheet">
     <style>
         :root { 
-            /* Palet Kuning Emas Gelap (Amber) */
-            --amber-bright: #f1c40f;
-            --amber-dark: #b8860b;
-            --bg-deep: #0a0a08;
-            --card-bg: rgba(20, 20, 18, 0.6);
-            --border: rgba(241, 196, 15, 0.15);
+            --amber: #f1c40f;
+            --amber-dim: #b8860b;
+            --bg: #070705;
+            --glass: rgba(20, 20, 18, 0.7);
         }
 
         * { box-sizing: border-box; }
         body, html { 
-            height: 100%; margin: 0; 
-            background: radial-gradient(circle at center, #1a1a15 0%, var(--bg-deep) 100%);
-            color: #eee; font-family: 'Poppins', sans-serif; 
-            display: flex; justify-content: center; align-items: center; 
-            overflow: hidden; 
+            height: 100%; margin: 0; background: radial-gradient(circle, #1a1a15 0%, var(--bg) 100%);
+            color: #eee; font-family: 'Poppins', sans-serif; overflow: hidden; 
         }
 
-        /* --- THEME: AMBER GLASS --- */
-        .card { 
-            width: 100%; max-width: 450px; 
-            background: var(--card-bg); 
-            padding: 40px; border-radius: 35px; 
-            border: 1px solid var(--border); 
-            backdrop-filter: blur(25px); 
-            box-shadow: 0 30px 60px rgba(0,0,0,0.8), 0 0 20px rgba(184, 134, 11, 0.05);
-            text-align: center;
-        }
-
+        /* --- SCENE SYSTEM --- */
         .scene { display: none; width: 100%; height: 100%; flex-direction: column; justify-content: center; align-items: center; padding: 20px; }
         .active { display: flex; }
 
-        /* --- WELCOME: AMBER GLITCH --- */
-        .glitch-wrapper { font-size: clamp(40px, 10vw, 70px); font-weight: 900; position: relative; letter-spacing: 10px; margin-bottom: 50px; color: var(--amber-bright); text-shadow: 0 0 10px rgba(241, 196, 15, 0.3); }
-        .glitch-text::before, .glitch-text::after { content: "NabungYUK!"; position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
-        /* Glitch main di kuning terang & putih */
-        .glitch-text::before { left: 3px; text-shadow: -2px 0 #fff; clip: rect(44px, 450px, 56px, 0); animation: g-1 0.8s infinite linear alternate-reverse; }
-        .glitch-text::after { left: -3px; text-shadow: 2px 0 var(--amber-dark); clip: rect(44px, 450px, 56px, 0); animation: g-2 0.8s infinite linear alternate-reverse; }
-        @keyframes g-1 { 0% { clip: rect(20px, 9999px, 90px, 0); } 100% { clip: rect(70px, 9999px, 30px, 0); } }
-        @keyframes g-2 { 0% { clip: rect(10px, 9999px, 80px, 0); } 100% { clip: rect(60px, 9999px, 15px, 0); } }
+        /* --- WELCOME REWORK: 3 ANIMASI --- */
+        #explode-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 5; }
+        .welcome-content { position: relative; z-index: 10; display: flex; flex-direction: column; align-items: center; width: 100%; max-width: 400px; }
 
-        .shake-agresif { animation: shake 0.1s infinite; }
-        @keyframes shake {
-            0% { transform: translate(0,0); }
-            50% { transform: translate(12px, -12px); }
-            100% { transform: translate(-12px, 12px); }
+        .glitch-wrapper { position: relative; width: 100%; margin-bottom: 40px; }
+        .svg-text { width: 100%; height: auto; overflow: visible; }
+        
+        /* Animasi 1: Path Flow */
+        .text-path { fill: none; stroke: rgba(255,255,255,0.05); stroke-width: 2; font-weight: 900; text-anchor: middle; }
+        .text-path-flow {
+            stroke: var(--amber); stroke-width: 4; stroke-dasharray: 300; stroke-dashoffset: 300;
+            animation: flow 4s infinite linear; filter: drop-shadow(0 0 12px var(--amber));
+        }
+        /* Animasi 2: Neon Pulse */
+        .text-fill-pulse { fill: var(--amber); opacity: 0; animation: pulse 3s infinite ease-in-out; }
+        /* Animasi 3: Subtle Glitch (CSS) */
+        .glitch-wrapper::after {
+            content: 'NabungYUK!'; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            color: #fff; opacity: 0; animation: glitch 6s infinite; pointer-events: none; text-align: center; font-size: 45px; /* Adjust to match SVG */
         }
 
-        /* --- UI ELEMENTS (AMBER THEME) --- */
-        h2 { text-transform: uppercase; letter-spacing: 3px; font-weight: 800; color: var(--amber-bright); margin-bottom: 25px; }
-        label { display: block; text-align: left; font-size: 11px; color: #666; margin: 15px 0 5px 8px; text-transform: uppercase; letter-spacing: 2px; }
+        @keyframes flow { to { stroke-dashoffset: 0; } }
+        @keyframes pulse { 0%, 100% { opacity: 0.05; } 50% { opacity: 0.3; } }
+        @keyframes glitch { 0%, 90% { opacity: 0; } 91% { opacity: 0.2; clip: rect(10px, 999px, 30px, 0); transform: translateX(5px); } 93% { opacity: 0; } }
+
+        /* --- BUTTONS --- */
+        .btn-entry {
+            width: 100%; padding: 22px; border: none; border-radius: 15px; font-weight: 900; font-size: 20px;
+            background: linear-gradient(135deg, var(--amber), var(--amber-dim)); color: #000;
+            cursor: pointer; transition: 0.3s; box-shadow: 0 10px 30px rgba(184, 134, 11, 0.4);
+        }
+        .btn-entry:active { transform: scale(0.95); }
+        .exploding .welcome-content { opacity: 0; transition: 0.2s; }
+
+        /* --- DASHBOARD & SETUP --- */
+        .card { 
+            width: 100%; max-width: 450px; background: var(--glass); padding: 40px; 
+            border-radius: 35px; border: 1px solid rgba(241, 196, 15, 0.2); backdrop-filter: blur(20px);
+            text-align: center; box-shadow: 0 30px 60px rgba(0,0,0,0.8);
+        }
         input { 
-            width: 100%; padding: 18px; background: rgba(0,0,0,0.6); 
-            border: 1px solid var(--border); border-radius: 15px; 
-            color: white; font-size: 18px; transition: 0.3s;
+            width: 100%; padding: 18px; background: #000; border: 1px solid rgba(241, 196, 15, 0.3);
+            border-radius: 15px; color: #fff; font-size: 16px; margin-bottom: 10px;
         }
-        input:focus { outline: none; border-color: var(--amber-bright); box-shadow: 0 0 15px rgba(241, 196, 15, 0.2); }
-        
-        .btn-action { 
-            width: 100%; padding: 20px; border: none; border-radius: 15px; 
-            font-weight: 900; cursor: pointer; text-transform: uppercase; 
-            margin-top: 30px; transition: 0.3s; letter-spacing: 1px;
-            background: linear-gradient(135deg, var(--amber-bright) 0%, var(--amber-dark) 100%);
-            color: #000; box-shadow: 0 10px 25px rgba(184, 134, 11, 0.3);
-        }
-        .btn-action:hover { transform: translateY(-3px); filter: brightness(1.2); }
-
-        /* --- PROGRESS SYSTEM (DARK GOLD) --- */
-        .circle-box { 
-            position: relative; width: 300px; height: 300px; 
-            margin: 20px auto; display: flex; justify-content: center; align-items: center;
-            overflow: visible !important; 
-        }
-        svg { width: 280px; height: 280px; transform: rotate(-90deg); overflow: visible !important; }
-        .circle-bg { fill: none; stroke: rgba(255,255,255,0.03); stroke-width: 20; }
+        .circle-box { position: relative; width: 260px; height: 260px; margin: 20px auto; overflow: visible !important; }
+        svg.prog-svg { width: 100%; height: 100%; overflow: visible !important; transform: rotate(-90deg); }
         .circle-prog { 
-            fill: none; stroke: var(--amber-bright); stroke-width: 20; 
-            stroke-linecap: round; stroke-dasharray: 565.48; stroke-dashoffset: 565.48; 
-            transition: 1s ease-out; filter: drop-shadow(0 0 10px rgba(241, 196, 15, 0.4));
+            fill: none; stroke: var(--amber); stroke-width: 18; stroke-linecap: round;
+            stroke-dasharray: 565.48; stroke-dashoffset: 565.48; transition: 1s ease-out;
         }
-        
-        /* 100% MODE: TEBEL & GAK BOCOR */
-        .glow-100 .circle-prog { 
-            stroke-width: 26;
-            filter: drop-shadow(0 0 20px var(--amber-bright)) drop-shadow(0 0 50px var(--amber-dark));
-        }
-        .percent-text { position: absolute; font-size: 60px; font-weight: 900; color: #fff; text-shadow: 0 0 20px rgba(241, 196, 15, 0.5); }
-
-        .target-img { 
-            width: 120px; height: 120px; border-radius: 50%; object-fit: cover; 
-            border: 3px solid var(--amber-bright); margin: 0 auto 20px; display: none;
-            box-shadow: 0 0 25px rgba(184, 134, 11, 0.3);
-        }
-
-        .reset-link { 
-            background: none; border: none; color: #333; margin-top: 30px; 
-            cursor: pointer; font-size: 10px; text-decoration: underline; text-transform: uppercase;
-        }
+        .glow-100 .circle-prog { stroke-width: 24; filter: drop-shadow(0 0 20px var(--amber)); }
+        .target-img { width: 100px; height: 100px; border-radius: 50%; object-fit: cover; border: 3px solid var(--amber); margin-bottom: 15px; display: none; }
     </style>
 </head>
 <body>
@@ -111,117 +82,118 @@
     <canvas id="confetti-canvas" style="position:fixed; top:0; left:0; width:100%; height:100%; pointer-events:none; z-index:100;"></canvas>
 
     <div id="scene0" class="scene active">
-        <div id="welcomeContent">
-            <div class="glitch-wrapper"><div class="glitch-text">NabungYUK!</div></div>
-            <p style="color: #443; letter-spacing: 5px; font-size: 10px; margin-top: -30px; margin-bottom: 40px;">PREMIUM SAVING PROTOCOL</p>
-            <button class="btn-action" style="width: auto; padding: 18px 60px;" onclick="startApp()">MASUK</button>
+        <canvas id="explode-canvas"></canvas>
+        <div class="welcome-content" id="wContent">
+            <div class="glitch-wrapper">
+                <svg viewBox="0 0 300 80" class="svg-text">
+                    <text class="text-path" x="150" y="55" font-size="45">NabungYUK!</text>
+                    <text class="text-fill-pulse" x="150" y="55" font-size="45">NabungYUK!</text>
+                    <text class="text-path text-path-flow" x="150" y="55" font-size="45">NabungYUK!</text>
+                </svg>
+            </div>
+            <button class="btn-entry" onclick="explodeAction()">MASUK</button>
         </div>
     </div>
 
     <div id="scene1" class="scene">
         <div class="card">
-            <h2>Target Misi</h2>
-            <div style="text-align: left;">
-                <label>Nominal Target (Rp)</label>
-                <input type="number" id="setNominal" placeholder="Contoh: 10000000">
-                <label>Foto Barang (Opsional)</label>
-                <input type="file" id="setFoto" accept="image/*" style="font-size: 12px; border: none; background: none; padding: 0; color: #666;">
-                <button class="btn-action" onclick="saveInitialTarget()">Lock Target</button>
-            </div>
+            <h2 style="color:var(--amber)">SET TARGET</h2>
+            <input type="number" id="setNominal" placeholder="Nominal Target (Rp)">
+            <input type="file" id="setFoto" accept="image/*">
+            <button class="btn-entry" onclick="saveTarget()">MULAI MISI</button>
         </div>
     </div>
 
     <div id="scene2" class="scene">
         <div class="card">
             <img id="viewImg" class="target-img">
-            <h2 id="viewTitle" style="font-size: 16px; color: #666;">Progres Tabungan</h2>
-            
             <div class="circle-box" id="glowArea">
-                <svg viewBox="0 0 200 200">
-                    <circle class="circle-bg" cx="100" cy="100" r="90"></circle>
-                    <circle class="circle-prog" id="progBar" cx="100" cy="100" r="90"></circle>
+                <svg viewBox="0 0 200 200" class="prog-svg">
+                    <circle cx="100" cy="100" r="90" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="18"></circle>
+                    <circle id="progBar" cx="100" cy="100" r="90" class="circle-prog"></circle>
                 </svg>
-                <div class="percent-text"><span id="txtPersen">0</span>%</div>
+                <div style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); font-size:40px; font-weight:900;"><span id="txtPersen">0</span>%</div>
             </div>
-
-            <div style="background: rgba(0,0,0,0.4); padding: 20px; border-radius: 25px; border: 1px solid var(--border); margin-bottom: 10px;">
-                <span style="font-size: 10px; color: var(--amber-dark); font-weight: 700; letter-spacing: 1px;">TOTAL TERKUMPUL</span>
-                <div id="txtTerkumpul" style="font-size: 32px; font-weight: 900; color: var(--amber-bright); margin: 5px 0;">Rp 0</div>
-                <div style="font-size: 10px; color: #444;">TARGET: <span id="txtTarget">Rp 0</span></div>
-            </div>
-
-            <div style="text-align: left;">
-                <label>Isi Celengan (Rp)</label>
-                <input type="number" id="addMoney" placeholder="Setor hari ini">
-                <button class="btn-action" onclick="addSaving()">Setor Duit</button>
-            </div>
-            <button onclick="hardReset()" class="reset-link">Reset Database</button>
+            <h3 id="txtTerkumpul" style="color:var(--amber); font-size:28px; margin:10px 0;">Rp 0</h3>
+            <input type="number" id="addMoney" placeholder="Setor Duit (Rp)">
+            <button class="btn-entry" onclick="addSaving()">SETOR</button>
+            <button onclick="hardReset()" style="background:none; border:none; color:#444; margin-top:20px; cursor:pointer; font-size:10px; text-decoration:underline;">RESET DATA</button>
         </div>
     </div>
 
     <script>
-        // DATA CENTRALIZATION (ANTI-ILANG)
-        let appData = JSON.parse(localStorage.getItem('NabungYuk_Amber_Data')) || {
-            target: 0, saved: 0, image: ''
-        };
+        // --- DATA SAFETY (KUNCI ABADI) ---
+        const MASTER_KEY = 'NabungYuk_Data_Master';
+        let appData = JSON.parse(localStorage.getItem(MASTER_KEY)) || { target: 0, saved: 0, image: '' };
 
-        const f = new Intl.NumberFormat('id-ID');
-        function updateStorage() { localStorage.setItem('NabungYuk_Amber_Data', JSON.stringify(appData)); }
+        function updateStorage() { localStorage.setItem(MASTER_KEY, JSON.stringify(appData)); }
 
-        function startApp() {
-            const welcome = document.getElementById('welcomeContent');
-            welcome.classList.add('shake-agresif');
+        // --- EXPLOSION LOGIC ---
+        const exCanvas = document.getElementById('explode-canvas');
+        const exCtx = exCanvas.getContext('2d');
+        let particles = [];
+
+        function resize() { exCanvas.width = window.innerWidth; exCanvas.height = window.innerHeight; }
+        window.onresize = resize; resize();
+
+        function explodeAction() {
+            document.getElementById('scene0').classList.add('exploding');
+            const rect = document.querySelector('.glitch-wrapper').getBoundingClientRect();
+            for(let i=0; i<150; i++) {
+                particles.push({
+                    x: rect.left + rect.width/2, y: rect.top + rect.height/2,
+                    size: Math.random()*12 + 4,
+                    vX: (Math.random()-0.5)*25, vY: (Math.random()-0.7)*25,
+                    color: ['#f1c40f', '#b8860b', '#fff'][Math.floor(Math.random()*3)],
+                    alpha: 1
+                });
+            }
+            animateExplosion();
             setTimeout(() => {
-                welcome.classList.remove('shake-agresif');
-                if (appData.target > 0) { renderDashboard(); goTo('scene2'); } 
-                else { goTo('scene1'); }
-            }, 1000);
+                if(appData.target > 0) { renderDash(); goTo('scene2'); } else { goTo('scene1'); }
+            }, 1200);
         }
 
-        function saveInitialTarget() {
-            const nom = document.getElementById('setNominal').value;
+        function animateExplosion() {
+            exCtx.clearRect(0,0,exCanvas.width,exCanvas.height);
+            particles.forEach((p, i) => {
+                p.x += p.vX; p.y += p.vY; p.vY += 0.5; p.alpha -= 0.02;
+                exCtx.globalAlpha = p.alpha; exCtx.fillStyle = p.color;
+                exCtx.fillRect(p.x, p.y, p.size, p.size);
+                if(p.alpha <= 0) particles.splice(i, 1);
+            });
+            if(particles.length > 0) requestAnimationFrame(animateExplosion);
+        }
+
+        // --- CORE FEATURES ---
+        function saveTarget() {
+            const val = document.getElementById('setNominal').value;
             const file = document.getElementById('setFoto').files[0];
-            if (!nom || nom <= 0) return alert("Nominal target harus diisi!");
-            appData.target = Number(nom);
-            if (file) {
+            if(!val || val <= 0) return alert("Isi targetnya Boss!");
+            appData.target = Number(val);
+            if(file) {
                 const reader = new FileReader();
-                reader.onloadend = () => { appData.image = reader.result; finishSetup(); };
+                reader.onload = (e) => { appData.image = e.target.result; finish(); };
                 reader.readAsDataURL(file);
-            } else { finishSetup(); }
+            } else { finish(); }
         }
+        function finish() { updateStorage(); renderDash(); goTo('scene2'); }
 
-        function finishSetup() { updateStorage(); renderDashboard(); goTo('scene2'); }
-
-        function renderDashboard() {
-            const persen = Math.min((appData.saved / appData.target) * 100, 100);
-            document.getElementById('txtPersen').innerText = Math.floor(persen);
+        function renderDash() {
+            const f = new Intl.NumberFormat('id-ID');
+            const p = Math.min((appData.saved / appData.target) * 100, 100);
+            document.getElementById('txtPersen').innerText = Math.floor(p);
             document.getElementById('txtTerkumpul').innerText = "Rp " + f.format(appData.saved);
-            document.getElementById('txtTarget').innerText = "Rp " + f.format(appData.target);
-            
-            // Progress Bar (Keliling 2 * PI * 90 = 565.48)
-            const offset = 565.48 - (persen / 100 * 565.48);
-            document.getElementById('progBar').style.strokeDashoffset = offset;
-
-            if (appData.image) {
-                const img = document.getElementById('viewImg');
-                img.src = appData.image; img.style.display = 'block';
-            }
-
-            if (persen >= 100 && appData.target > 0) {
-                document.getElementById('glowArea').classList.add('glow-100');
-                startConfetti();
-            } else {
-                document.getElementById('glowArea').classList.remove('glow-100');
-            }
+            document.getElementById('progBar').style.strokeDashoffset = 565.48 - (p/100 * 565.48);
+            if(appData.image) { const img = document.getElementById('viewImg'); img.src = appData.image; img.style.display = 'block'; }
+            if(p >= 100) document.getElementById('glowArea').classList.add('glow-100');
         }
 
         function addSaving() {
-            const input = document.getElementById('addMoney');
-            const val = Number(input.value);
-            if (val <= 0) return alert("Isi nominalnya dulu Jih!");
-            appData.saved += val;
-            updateStorage(); renderDashboard();
-            input.value = "";
+            const v = Number(document.getElementById('addMoney').value);
+            if(v <= 0) return;
+            appData.saved += v; updateStorage(); renderDash();
+            document.getElementById('addMoney').value = '';
         }
 
         function goTo(id) {
@@ -229,34 +201,7 @@
             document.getElementById(id).classList.add('active');
         }
 
-        function hardReset() {
-            if (confirm("Hapus semua data tabungan?")) {
-                localStorage.clear(); location.reload();
-            }
-        }
-
-        // CONFETTI EMAS JIH
-        const canvas = document.getElementById('confetti-canvas');
-        const ctx = canvas.getContext('2d');
-        let confetti = [];
-        function startConfetti() {
-            canvas.width = window.innerWidth; canvas.height = window.innerHeight;
-            for(let i=0; i<100; i++) confetti.push({
-                x: Math.random()*canvas.width, y: Math.random()*canvas.height - canvas.height,
-                size: Math.random()*8+4, color: ['#f1c40f','#b8860b','#fff'][Math.floor(Math.random()*3)],
-                vel: Math.random()*4+3
-            });
-            drawConfetti();
-        }
-        function drawConfetti() {
-            ctx.clearRect(0,0,canvas.width,canvas.height);
-            confetti.forEach(p => {
-                p.y += p.vel; ctx.fillStyle = p.color;
-                ctx.fillRect(p.x, p.y, p.size, p.size);
-                if(p.y > canvas.height) p.y = -20;
-            });
-            requestAnimationFrame(drawConfetti);
-        }
+        function hardReset() { if(confirm("Data ilang lho! Yakin?")) { localStorage.clear(); location.reload(); } }
     </script>
 </body>
 </html>

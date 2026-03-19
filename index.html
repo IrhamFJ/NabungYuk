@@ -3,38 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NabungYUK! - 100% Ultra Mode</title>
+    <title>NabungYUK! - Glow Mode & Split Scene</title>
     <style>
-        /* CSS Utama */
+        /* CSS Utama - Modern & Gelap biar Glow Nonjol */
         body {
             font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            background: linear-gradient(135deg, #10101a 0%, #1a1a2e 100%);
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
             margin: 0;
             color: white;
-            overflow: hidden; /* Buat nahan confetti */
+            overflow: hidden;
         }
 
+        /* --- KONTENER UTAMA (Aplikasi) --- */
+        .app-container {
+            position: relative;
+            width: 100%;
+            max-width: 400px;
+            z-index: 10;
+        }
+
+        /* Gaya Card Umum */
         .card {
-            background: rgba(255, 255, 255, 0.05);
+            background: rgba(255, 255, 255, 0.03);
             padding: 30px;
             border-radius: 25px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.5);
-            width: 100%;
-            max-width: 420px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.6);
             text-align: center;
-            border: 1px solid rgba(255,255,255,0.1);
-            backdrop-filter: blur(10px);
-            position: relative;
-            z-index: 10;
-            transition: transform 0.3s ease;
-        }
-
-        .card:hover {
-            transform: translateY(-5px);
+            border: 1px solid rgba(255,255,255,0.08);
+            backdrop-filter: blur(15px);
+            transition: opacity 0.4s ease, transform 0.4s ease;
         }
 
         h2 {
@@ -42,10 +43,17 @@
             margin-bottom: 5px;
             text-transform: uppercase;
             letter-spacing: 2px;
-            text-shadow: 0 0 10px rgba(46, 204, 113, 0.5);
+            text-shadow: 0 0 10px rgba(46, 204, 113, 0.3);
         }
 
-        /* --- Container Progress Lingkaran TEBEL --- */
+        /* --- SCENE 1: DASHBOARD (Dashboard Scene) --- */
+        #scene-dashboard {
+            opacity: 1;
+            transform: scale(1);
+            display: block; /* Default tampil */
+        }
+
+        /* Progress Lingkaran */
         .circle-container {
             position: relative;
             width: 240px;
@@ -56,139 +64,127 @@
             justify-content: center;
         }
 
-        /* SVG & Lingkaran */
         svg {
-            transform: rotate(-90deg);
+            transform: rotate(-90deg); /* Mulai dari atas */
             width: 240px;
             height: 240px;
         }
 
         .circle-bg {
             fill: none;
-            stroke: rgba(255,255,255,0.1);
-            stroke-width: 20; /* TEBEL */
+            stroke: rgba(255,255,255,0.06);
+            stroke-width: 22; /* TEBEL */
         }
 
         .circle-progress {
             fill: none;
             stroke: #2ecc71;
-            stroke-width: 20; /* TEBEL */
+            stroke-width: 22; /* TEBEL */
             stroke-linecap: round;
-            /* Keliling = 2 * PI * R (R=100) */
-            stroke-dasharray: 628.3;
+            stroke-dasharray: 628.3; /* Keliling = 2 * PI * 100 */
             stroke-dashoffset: 628.3; /* Mulai kosong */
-            transition: stroke-dashoffset 1s ease-out, stroke 0.5s ease;
-            filter: drop-shadow(0 0 10px rgba(46, 204, 113, 0.8));
+            transition: stroke-dashoffset 1s ease-out, stroke 0.5s ease, filter 0.5s ease;
         }
 
-        /* Teks di tengah */
+        /* Teks Tengah */
         .percentage-text {
             position: absolute;
-            font-size: 48px;
+            font-size: 50px;
             font-weight: 800;
             color: white;
-            text-shadow: 0 0 15px rgba(255,255,255,0.5);
+            text-shadow: 0 0 10px rgba(255,255,255,0.4);
             display: flex;
-            flex-direction: column;
-            align-items: center;
+            align-items: baseline;
         }
 
         .percentage-text span {
-            font-size: 16px;
+            font-size: 22px;
             font-weight: 400;
             opacity: 0.8;
-            margin-top: -5px;
+            margin-left: 3px;
         }
 
-        /* --- ANIMASI 100% MELEDAK (Class khusus) --- */
-        .status-100 .circle-container {
-            animation: pulseAura 2s infinite ease-in-out, rotateContainer 10s infinite linear;
-        }
-
-        .status-100 .circle-progress {
-            stroke: #f1c40f; /* Warna EMAS masif */
-            filter: drop-shadow(0 0 25px rgba(241, 196, 15, 1));
-            stroke-width: 25; /* Makin TEBEL pas 100% */
-        }
-
-        .status-100 .percentage-text {
-            color: #f1c40f;
-            text-shadow: 0 0 20px rgba(241, 196, 15, 0.8);
-            animation: textPop 0.5s ease-out;
-        }
-
-        /* Keyframes Animasi */
-        @keyframes pulseAura {
-            0% { box-shadow: 0 0 20px rgba(241, 196, 15, 0.3); }
-            50% { box-shadow: 0 0 60px rgba(241, 196, 15, 0.7); }
-            100% { box-shadow: 0 0 20px rgba(241, 196, 15, 0.3); }
-        }
-
-        @keyframes rotateContainer {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-
-        @keyframes textPop {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.2); }
-            100% { transform: scale(1); }
-        }
-
-        /* --- Elemen UI Lainnya --- */
+        /* Info Tabungan */
         .info-tabungan {
             background: rgba(0,0,0,0.2);
             padding: 15px;
             border-radius: 12px;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
             border: 1px solid rgba(255,255,255,0.05);
         }
 
-        .info-tabungan p {
-            margin: 5px 0;
-            font-size: 14px;
-            opacity: 0.9;
+        .info-tabungan p { margin: 5px 0; font-size: 14px; opacity: 0.8; }
+        .info-tabungan strong { font-size: 18px; color: #fff; }
+
+        /* --- STATUS 100% GLOW EMAS TEBEL --- */
+        .status-100 .circle-progress {
+            stroke: #f1c40f; /* EMAS SOLID */
+            stroke-width: 28; /* MAKIN TEBEL BANGET */
+            /* GLOW EMAS LUMAYAN TERANG Berlapis */
+            filter: 
+                drop-shadow(0 0 15px rgba(241, 196, 15, 1))
+                drop-shadow(0 0 30px rgba(241, 196, 15, 0.8))
+                drop-shadow(0 0 50px rgba(241, 196, 15, 0.6));
         }
 
-        .info-tabungan strong {
-            font-size: 18px;
+        .status-100 .percentage-text {
+            color: #f1c40f;
+            text-shadow: 0 0 20px rgba(241, 196, 15, 0.7);
+        }
+
+        /* --- SCENE 2: INPUT UPDATE (Input Scene) --- */
+        #scene-input {
+            opacity: 0;
+            transform: scale(0.9);
+            display: none; /* Default sembunyi */
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Gaya Card Input */
+        .card-input {
+            text-align: left;
         }
 
         .input-group {
-            text-align: left;
             margin-top: 15px;
         }
 
         label {
             font-size: 12px;
             text-transform: uppercase;
-            color: #888;
+            color: #aaa;
             letter-spacing: 1px;
             margin-left: 5px;
+            display: block;
         }
 
         input {
             width: 100%;
-            padding: 12px 15px;
-            margin: 8px 0 15px 0;
+            padding: 14px 18px;
+            margin: 8px 0 20px 0;
             background: rgba(0,0,0,0.3);
-            border: 2px solid rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.12);
             border-radius: 10px;
             color: white;
             font-size: 16px;
             box-sizing: border-box;
-            transition: border-color 0.3s;
+            transition: border-color 0.3s, background 0.3s;
         }
 
         input:focus {
             outline: none;
             border-color: #2ecc71;
+            background: rgba(0,0,0,0.4);
         }
 
-        button {
+        /* Tombol Umum */
+        .btn {
             width: 100%;
-            padding: 15px;
-            background: linear-gradient(90deg, #2ecc71, #27ae60);
+            padding: 16px;
             border: none;
             color: white;
             font-weight: 700;
@@ -197,33 +193,60 @@
             letter-spacing: 1px;
             border-radius: 10px;
             cursor: pointer;
-            transition: transform 0.1s, box-shadow 0.3s;
-            box-shadow: 0 5px 15px rgba(46, 204, 113, 0.3);
+            transition: transform 0.1s, box-shadow 0.3s, background 0.3s;
+            box-sizing: border-box;
         }
 
-        button:hover {
-            box-shadow: 0 8px 25px rgba(46, 204, 113, 0.5);
-        }
+        .btn:active { transform: scale(0.98); }
 
-        button:active {
-            transform: scale(0.98);
+        /* Tombol Dashboard (Update) */
+        .btn-update {
+            background: linear-gradient(90deg, #2ecc71, #27ae60);
+            box-shadow: 0 8px 20px rgba(46, 204, 113, 0.2);
         }
+        .btn-update:hover { box-shadow: 0 10px 30px rgba(46, 204, 113, 0.4); }
 
+        /* Tombol Simpan (Input Scene) */
+        .btn-simpan {
+            background: linear-gradient(90deg, #3498db, #2980b9); /* Warna Biru biar beda */
+            box-shadow: 0 8px 20px rgba(52, 152, 219, 0.2);
+        }
+        .btn-simpan:hover { box-shadow: 0 10px 30px rgba(52, 152, 219, 0.4); }
+
+        /* Tombol Reset (Kecil) */
         .btn-reset {
-            background: rgba(231, 76, 60, 0.2);
-            border: 1px solid rgba(231, 76, 60, 0.5);
+            background: rgba(231, 76, 60, 0.08);
+            border: 1px solid rgba(231, 76, 60, 0.3);
             color: #e74c3c;
             font-size: 12px;
             padding: 10px;
-            margin-top: 15px;
-            box-shadow: none;
+            margin-top: 20px;
+            width: auto;
+            display: inline-block;
         }
-        .btn-reset:hover {
-            background: rgba(231, 76, 60, 0.4);
-            box-shadow: 0 5px 10px rgba(231, 76, 60, 0.2);
+        .btn-reset:hover { background: rgba(231, 76, 60, 0.2); }
+
+        /* Tombol Back */
+        .btn-back {
+            background: none;
+            border: none;
+            color: #aaa;
+            font-size: 14px;
+            cursor: pointer;
+            margin-bottom: 20px;
+            padding: 0;
+            text-decoration: underline;
+        }
+        .btn-back:hover { color: white; }
+
+        /* --- Animasi Scene Transition --- */
+        .scene-active {
+            opacity: 1 !important;
+            transform: scale(1) !important;
+            display: block !important;
         }
 
-        /* --- Confetti Canvas --- */
+        /* --- Confetti Canvas (Tetep Ada biar Mewah) --- */
         #confetti-canvas {
             position: fixed;
             top: 0;
@@ -240,83 +263,113 @@
 
 <canvas id="confetti-canvas"></canvas>
 
-<div class="card" id="mainCard">
-    <h2>NabungYUK!</h2>
+<div class="app-container">
     
-    <div class="circle-container" id="circleContainer">
-        <svg viewBox="0 0 220 220">
-            <circle class="circle-bg" cx="110" cy="110" r="100"></circle>
-            <circle class="circle-progress" id="progressObject" cx="110" cy="110" r="100"></circle>
-        </svg>
-        <div class="percentage-text">
-            <div id="persenText">0</div>
-            <span>%</span>
+    <div id="scene-dashboard" class="card scene-active status-100">
+        <h2>NabungYUK!</h2>
+        
+        <div class="circle-container" id="circleContainer">
+            <svg viewBox="0 0 220 220">
+                <circle class="circle-bg" cx="110" cy="110" r="100"></circle>
+                <circle class="circle-progress" id="progressObject" cx="110" cy="110" r="100"></circle>
+            </svg>
+            <div class="percentage-text">
+                <div id="persenText">100</div>
+                <span>%</span>
+            </div>
+        </div>
+
+        <div class="info-tabungan">
+            <p>Target: <strong id="displayTarget">Rp 1.000.000</strong></p>
+            <p>Terkumpul: <strong id="displayTerkumpul" style="color: #2ecc71;">Rp 1.000.000</strong></p>
+        </div>
+
+        <button class="btn btn-update" onclick="switchScene('input')">Update Tabungan</button>
+    </div>
+
+    <div id="scene-input" class="card card-input">
+        <button class="btn-back" onclick="switchScene('dashboard')">← Kembali ke Dashboard</button>
+        <h2>Update Data</h2>
+        
+        <div class="input-group">
+            <label>🎯 Set/Ubah Target Total (Rp)</label>
+            <input type="number" id="inputTarget" placeholder="Contoh: 5000000">
+            
+            <label>💰 Masukin Duit Baru (Rp)</label>
+            <input type="number" id="inputNabung" placeholder="Nominal nabung hari ini">
+            
+            <button class="btn btn-simpan" onclick="simpanData()">Gas Simpan!</button>
+        </div>
+
+        <div style="text-align: center;">
+            <button onclick="resetData()" class="btn btn-reset">Reset Semua Data</button>
         </div>
     </div>
 
-    <div class="info-tabungan">
-        <p>Target: <strong id="displayTarget">Rp 0</strong></p>
-        <p>Terkumpul: <strong id="displayTerkumpul" style="color: #2ecc71;">Rp 0</strong></p>
-    </div>
-
-    <div class="input-group">
-        <label>🎯 Set/Ubah Target (Rp)</label>
-        <input type="number" id="inputTarget" placeholder="Contoh: 1000000">
-        
-        <label>💰 Masukin Duit (Rp)</label>
-        <input type="number" id="inputNabung" placeholder="Nominal nabung">
-        
-        <button onclick="updateTabungan()">Gas Nabung!</button>
-        <button onclick="resetData()" class="btn-reset">Reset Semua Data</button>
-    </div>
 </div>
 
 <script>
-    // --- LOGIKA UTAMA NabungYUK! ---
-    let totalNabung = Number(localStorage.getItem('total_ultra')) || 0;
-    let targetNabung = Number(localStorage.getItem('target_ultra')) || 0;
-    const kelilingLingkaran = 2 * Math.PI * 100; // 628.3
+    // --- LOGIKA UTAMA & SCENE SWITCHING ---
+    let totalNabung = Number(localStorage.getItem('total_glow')) || 0;
+    let targetNabung = Number(localStorage.getItem('target_glow')) || 0;
+    const kelilingLingkaran = 628.3; // 2 * PI * 100
 
-    const card = document.getElementById('mainCard');
+    const sceneDashboard = document.getElementById('scene-dashboard');
+    const sceneInput = document.getElementById('scene-input');
     const progressObj = document.getElementById('progressObject');
     const persenText = document.getElementById('persenText');
-    const circleContainer = document.getElementById('circleContainer');
+    const formatter = new Intb.NumberFormat('id-ID');
 
+    // FUNGSI SWITCH SCENE
+    function switchScene(sceneName) {
+        if (sceneName === 'input') {
+            sceneDashboard.classList.remove('scene-active');
+            sceneInput.classList.add('scene-active');
+        } else {
+            sceneInput.classList.remove('scene-active');
+            sceneDashboard.classList.add('scene-active');
+            renderProgress(); // Render ulang pas balik
+        }
+    }
+
+    // FUNGSI UTAMA RENDER
     function renderProgress() {
-        document.getElementById('displayTarget').innerText = "Rp " + targetNabung.toLocaleString('id-ID');
-        document.getElementById('displayTerkumpul').innerText = "Rp " + totalNabung.toLocaleString('id-ID');
+        document.getElementById('displayTarget').innerText = "Rp " + formatter.format(targetNabung);
+        document.getElementById('displayTerkumpul').innerText = "Rp " + formatter.format(totalNabung);
 
         let persentase = targetNabung > 0 ? (totalNabung / targetNabung) * 100 : 0;
         let persenTampil = Math.min(persentase, 100);
         
-        // Animasi Angka
-        animateNumber(Number(persenText.innerText), persenTampil, persenText);
+        // Update Angka
+        persenText.innerText = persenTampil.toFixed(0);
 
-        // Update SVG Progress
+        // Update SVG Progress (Diem, cuma Garis)
         const offset = kelilingLingkaran - (persenTampil / 100 * kelilingLingkaran);
         progressObj.style.strokeDashoffset = offset;
 
-        // --- CEK STATUS 100% ---
-        if (persentase >= 100) {
-            if (!card.classList.contains('status-100')) {
-                // Baru tembus 100%
-                card.classList.add('status-100');
-                startConfetti(); // MELEDAK!
+        // --- CEK STATUS 100% GLOW EMAS TEBEL ---
+        if (persentase >= 100 && targetNabung > 0) {
+            if (!sceneDashboard.classList.contains('status-100')) {
+                sceneDashboard.classList.add('status-100');
+                startConfetti(); 
             }
         } else {
-            card.classList.remove('status-100');
+            sceneDashboard.classList.remove('status-100');
             stopConfetti();
         }
     }
 
-    function updateTabungan() {
+    // FUNGSI SIMPAN DATA (Scene 2)
+    function simpanData() {
         let inTarget = document.getElementById('inputTarget').value;
         let inNabung = document.getElementById('inputNabung').value;
+        let dataChanged = false;
 
-        if (inTarget > 0) {
+        if (inTarget && Number(inTarget) > 0) {
             targetNabung = Number(inTarget);
-            localStorage.setItem('target_ultra', targetNabung);
+            localStorage.setItem('target_glow', targetNabung);
             document.getElementById('inputTarget').value = "";
+            dataChanged = true;
         }
 
         if (targetNabung <= 0) {
@@ -324,70 +377,65 @@
             return;
         }
 
-        if (inNabung > 0) {
+        if (inNabung && Number(inNabung) > 0) {
             totalNabung += Number(inNabung);
-            localStorage.setItem('total_ultra', totalNabung);
+            localStorage.setItem('total_glow', totalNabung);
             document.getElementById('inputNabung').value = "";
+            dataChanged = true;
         }
 
-        renderProgress();
+        if (dataChanged) {
+            alert("Data berhasil disimpan! Balik ke Dashboard...");
+            switchScene('dashboard'); // Balik otomatis
+        } else {
+            alert("Kagak ada data yang diisi, Boss.");
+        }
     }
 
     function resetData() {
         if(confirm("Yakin mau hapus data? Ntar nyesel lho...")) {
-            localStorage.removeItem('total_ultra');
-            localStorage.removeItem('target_ultra');
+            localStorage.removeItem('total_glow');
+            localStorage.removeItem('target_glow');
             totalNabung = 0;
             targetNabung = 0;
-            renderProgress();
+            document.getElementById('inputTarget').value = "";
+            document.getElementById('inputNabung').value = "";
+            alert("Data dihapus. Balik ke Dashboard...");
+            switchScene('dashboard');
         }
     }
 
-    // Helper: Animasi Angka Halus
-    function animateNumber(start, end, element) {
-        if (start === end) return;
-        let range = end - start;
-        let current = start;
-        let increment = end > start ? 1 : -1;
-        let stepTime = Math.abs(Math.floor(1000 / range));
-        if (stepTime < 10) stepTime = 10; // Batas kecepatan
-
-        let timer = setInterval(function() {
-            current += increment;
-            element.innerText = Math.floor(current);
-            if (current == end) {
-                clearInterval(timer);
-                element.innerText = end.toFixed(0); // Pastikan pas
-            }
-        }, stepTime);
-    }
-
-    // --- SISTEM CONFETTI EMAS TEBEL ---
+    // --- SISTEM CONFETTI EMAS Mewah (Tetep Ada) ---
     const canvas = document.getElementById('confetti-canvas');
     const ctx = canvas.getContext('2d');
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
+    
+    function resizeCanvas() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+    }
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
 
     let confetti = [];
-    const confettiCount = 150; // Padet
-    const gravity = 0.5;
-    const terminalVelocity = 5;
-    const drag = 0.07;
-    const colors = ['#f1c40f', '#f39c12', '#e67e22', '#fff']; // Skema Emas
+    const confettiCount = 120; 
+    const gravity = 0.6;
+    const terminalVelocity = 6;
+    const drag = 0.08;
+    const colors = ['#f1c40f', '#f39c12', '#e67e22', '#fff'];
 
     let confettiActive = false;
+    let animationId;
 
     class Particle {
         constructor() {
             this.x = Math.random() * canvas.width;
-            this.y = Math.random() * canvas.height - canvas.height; // Mulai dari atas screen
-            this.size = Math.random() * 8 + 4; // Tebel
-            this.velocity = { x: Math.random() * 6 - 3, y: Math.random() * 10 + 5 };
+            this.y = Math.random() * canvas.height - canvas.height; 
+            this.size = Math.random() * 7 + 3;
+            this.velocity = { x: Math.random() * 6 - 3, y: Math.random() * 12 + 6 };
             this.rotation = Math.random() * 360;
-            this.rotationSpeed = Math.random() * 10 - 5;
+            this.rotationSpeed = Math.random() * 12 - 6;
             this.color = colors[Math.floor(Math.random() * colors.length)];
         }
-
         update() {
             this.velocity.y += gravity;
             this.velocity.y = Math.min(this.velocity.y, terminalVelocity);
@@ -395,20 +443,14 @@
             this.x += this.velocity.x;
             this.y += this.velocity.y;
             this.rotation += this.rotationSpeed;
-
-            // Loop back to top
-            if (this.y > canvas.height) {
-                this.y = -this.size;
-                this.velocity.y = Math.random() * 10 + 5;
-            }
+            if (this.y > canvas.height) { this.y = -this.size; this.velocity.y = Math.random() * 12 + 6; }
         }
-
         draw() {
             ctx.save();
             ctx.translate(this.x, this.y);
             ctx.rotate(this.rotation * Math.PI / 180);
             ctx.fillStyle = this.color;
-            ctx.fillRect(-this.size / 2, -this.size / 2, this.size, this.size); // Kotak foil
+            ctx.fillRect(-this.size / 2, -this.size / 2, this.size, this.size);
             ctx.restore();
         }
     }
@@ -417,36 +459,22 @@
         if (confettiActive) return;
         confettiActive = true;
         confetti = [];
-        for (let i = 0; i < confettiCount; i++) {
-            confetti.push(new Particle());
-        }
+        for (let i = 0; i < confettiCount; i++) { confetti.push(new Particle()); }
         animateConfetti();
     }
-
     function stopConfetti() {
         confettiActive = false;
-        ctx.clearRect(0, 0, canvas.width, canvas.height); // Bersihin canvas
+        if (animationId) { cancelAnimationFrame(animationId); }
+        ctx.clearRect(0, 0, canvas.width, canvas.height); 
     }
-
     function animateConfetti() {
         if (!confettiActive) return;
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-        
-        confetti.forEach(p => {
-            p.update();
-            p.draw();
-        });
-        
-        requestAnimationFrame(animateConfetti);
+        confetti.forEach(p => { p.update(); p.draw(); });
+        animationId = requestAnimationFrame(animateConfetti);
     }
 
-    // Resize canvas
-    window.addEventListener('resize', () => {
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-    });
-
-    // Jalankan render pertama kali
+    // Jalankan render pertama kali (Dashboard)
     renderProgress();
 
 </script>

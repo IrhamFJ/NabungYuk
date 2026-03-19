@@ -3,82 +3,64 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NabungYUK! - Final Master Amber</title>
+    <title>NabungYUK! - Anti-Error Master</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@700;900&display=swap" rel="stylesheet">
     <style>
         :root { 
             --amber: #f1c40f;
             --amber-dim: #b8860b;
             --bg: #070705;
-            --glass: rgba(20, 20, 18, 0.8);
         }
 
-        * { box-sizing: border-box; }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
         body, html { 
-            height: 100%; margin: 0; background: radial-gradient(circle, #1a1a15 0%, var(--bg) 100%);
-            color: #eee; font-family: 'Poppins', sans-serif; overflow: hidden; 
-            display: flex; justify-content: center; align-items: center; 
+            height: 100%; width: 100%; background: radial-gradient(circle, #1a1a15 0%, var(--bg) 100%);
+            color: #eee; font-family: 'Poppins', sans-serif; display: flex; justify-content: center; align-items: center; overflow: hidden; 
         }
 
-        /* --- SCENE SYSTEM --- */
-        .scene { display: none; width: 100%; height: 100%; flex-direction: column; justify-content: center; align-items: center; padding: 20px; }
+        .scene { display: none; width: 100%; height: 100%; flex-direction: column; justify-content: center; align-items: center; z-index: 10; }
         .active { display: flex; }
 
-        /* --- WELCOME: FIX TOTAL --- */
+        /* --- WELCOME: CENTERED TOTAL --- */
         #explode-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 5; }
-        .welcome-content { position: relative; z-index: 10; display: flex; flex-direction: column; align-items: center; width: 100%; max-width: 420px; }
+        .welcome-content { display: flex; flex-direction: column; align-items: center; width: 90%; max-width: 400px; }
 
-        .glitch-wrapper { 
-            position: relative; width: 100%; margin-bottom: 40px; 
-            display: flex; justify-content: center; align-items: center;
-        }
-        .svg-text { width: 100%; height: auto; overflow: visible; }
-        .text-path { fill: none; stroke: rgba(255,255,255,0.05); stroke-width: 2; font-weight: 900; text-anchor: middle; }
-        .text-path-flow {
-            stroke: var(--amber); stroke-width: 4; stroke-dasharray: 300; stroke-dashoffset: 300;
-            animation: flow 4s infinite linear; filter: drop-shadow(0 0 15px var(--amber));
-        }
-        .text-fill-pulse { fill: var(--amber); opacity: 0; animation: pulse 3s infinite ease-in-out; }
-
-        /* FIX GLITCH BOCOR */
-        .glitch-wrapper::after {
-            content: 'NabungYUK!'; position: absolute; width: 100%; height: 100%;
-            color: #fff; opacity: 0; animation: glitch 6s infinite; pointer-events: none; 
-            display: flex; justify-content: center; align-items: center;
-            font-size: 50px; font-weight: 900; letter-spacing: 2px;
-        }
+        .svg-wrapper { width: 100%; height: 100px; overflow: visible; margin-bottom: 20px; }
+        .text-layer { font-size: 45px; font-weight: 900; text-anchor: middle; dominant-baseline: middle; text-transform: uppercase; letter-spacing: 2px; }
+        
+        .layer-flow { fill: none; stroke: var(--amber); stroke-width: 2; stroke-dasharray: 200; stroke-dashoffset: 200; animation: flow 4s infinite linear; filter: drop-shadow(0 0 15px var(--amber)); }
+        .layer-fill { fill: var(--amber); opacity: 0.1; animation: pulse 3s infinite ease-in-out; }
 
         @keyframes flow { to { stroke-dashoffset: 0; } }
-        @keyframes pulse { 0%, 100% { opacity: 0.05; } 50% { opacity: 0.2; } }
-        @keyframes glitch { 0%, 90% { opacity: 0; } 91% { opacity: 0.2; clip: rect(10px, 999px, 30px, 0); transform: translateX(5px); } 93% { opacity: 0; } }
+        @keyframes pulse { 0%, 100% { opacity: 0.1; } 50% { opacity: 0.3; } }
 
-        /* --- UI ELEMENTS --- */
+        /* --- UI COMPONENTS --- */
         .btn-entry {
-            width: 100%; padding: 20px; border: none; border-radius: 15px; font-weight: 900; font-size: 20px;
-            background: linear-gradient(135deg, var(--amber), var(--amber-dim)); color: #000;
-            cursor: pointer; transition: 0.3s; box-shadow: 0 10px 30px rgba(184, 134, 11, 0.4);
-            text-transform: uppercase;
+            width: 100%; padding: 20px; border: none; border-radius: 15px; background: linear-gradient(135deg, var(--amber), var(--amber-dim));
+            color: #000; font-weight: 900; font-size: 18px; cursor: pointer; text-transform: uppercase; letter-spacing: 1px;
+            box-shadow: 0 10px 30px rgba(184, 134, 11, 0.4); transition: 0.3s;
         }
         .btn-entry:active { transform: scale(0.96); }
-        .exploding .welcome-content { opacity: 0; pointer-events: none; transition: 0.2s; }
 
         .card { 
-            width: 100%; max-width: 450px; background: var(--glass); padding: 40px; 
-            border-radius: 35px; border: 1px solid rgba(241, 196, 15, 0.2); backdrop-filter: blur(25px);
-            text-align: center; box-shadow: 0 30px 60px rgba(0,0,0,0.9);
+            width: 90%; max-width: 450px; background: rgba(20, 20, 18, 0.85); padding: 35px; 
+            border-radius: 35px; border: 1px solid rgba(241, 196, 15, 0.2); backdrop-filter: blur(20px); text-align: center;
         }
+
         input { 
             width: 100%; padding: 18px; background: #000; border: 1px solid rgba(241, 196, 15, 0.3);
             border-radius: 15px; color: #fff; font-size: 16px; margin-bottom: 12px; outline: none;
         }
-        .circle-box { position: relative; width: 280px; height: 280px; margin: 20px auto; overflow: visible !important; }
+
+        /* --- DASHBOARD ELEMENTS --- */
+        .target-img { width: 110px; height: 110px; border-radius: 50%; object-fit: cover; border: 3px solid var(--amber); margin-bottom: 15px; display: none; box-shadow: 0 0 20px rgba(241, 196, 15, 0.3); }
+        .circle-box { position: relative; width: 280px; height: 280px; margin: 15px auto; display: flex; justify-content: center; align-items: center; overflow: visible !important; }
         svg.prog-svg { width: 100%; height: 100%; overflow: visible !important; transform: rotate(-90deg); }
-        .circle-prog { 
-            fill: none; stroke: var(--amber); stroke-width: 20; stroke-linecap: round;
-            stroke-dasharray: 565.48; stroke-dashoffset: 565.48; transition: 1s ease-out;
-        }
-        .glow-100 .circle-prog { stroke-width: 26; filter: drop-shadow(0 0 25px var(--amber)); }
-        .target-img { width: 100px; height: 100px; border-radius: 50%; object-fit: cover; border: 3px solid var(--amber); margin: 0 auto 15px; display: none; }
+        .circle-prog { fill: none; stroke: var(--amber); stroke-width: 20; stroke-linecap: round; stroke-dasharray: 565.48; stroke-dashoffset: 565.48; transition: 1s ease-out; }
+        .glow-100 .circle-prog { stroke-width: 26; filter: drop-shadow(0 0 30px var(--amber)); }
+        .percent-text { position: absolute; font-size: 55px; font-weight: 900; color: #fff; }
+
+        .exploding .welcome-content { opacity: 0; transition: 0.2s; }
     </style>
 </head>
 <body>
@@ -88,23 +70,23 @@
     <div id="scene0" class="scene active">
         <canvas id="explode-canvas"></canvas>
         <div class="welcome-content">
-            <div class="glitch-wrapper">
-                <svg viewBox="0 0 320 80" class="svg-text">
-                    <text class="text-path" x="160" y="55" font-size="50">NabungYUK!</text>
-                    <text class="text-fill-pulse" x="160" y="55" font-size="50">NabungYUK!</text>
-                    <text class="text-path text-path-flow" x="160" y="55" font-size="50">NabungYUK!</text>
+            <div class="svg-wrapper">
+                <svg viewBox="0 0 400 100" style="overflow:visible">
+                    <text x="50%" y="50%" class="text-layer" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="1">NabungYUK!</text>
+                    <text x="50%" y="50%" class="text-layer layer-fill">NabungYUK!</text>
+                    <text x="50%" y="50%" class="text-layer layer-flow">NabungYUK!</text>
                 </svg>
             </div>
-            <button class="btn-entry" onclick="explodeAction()">MASUK</button>
+            <button class="btn-entry" onclick="triggerExplosion()">MASUK</button>
         </div>
     </div>
 
     <div id="scene1" class="scene">
         <div class="card">
-            <h2 style="color:var(--amber)">SET TARGET</h2>
+            <h2 style="color:var(--amber); margin-bottom:20px;">SET TARGET</h2>
             <input type="number" id="setNominal" placeholder="Nominal Target (Rp)">
-            <input type="file" id="setFoto" accept="image/*">
-            <button class="btn-entry" onclick="saveTarget()">MULAI MISI</button>
+            <input type="file" id="setFoto" accept="image/*" style="border:none; background:none; font-size:12px; color:#666;">
+            <button class="btn-entry" onclick="saveInitialData()">MULAI NABUNG</button>
         </div>
     </div>
 
@@ -116,86 +98,91 @@
                     <circle cx="100" cy="100" r="90" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="20"></circle>
                     <circle id="progBar" cx="100" cy="100" r="90" class="circle-prog"></circle>
                 </svg>
-                <div style="position:absolute; font-size:50px; font-weight:900;"><span id="txtPersen">0</span>%</div>
+                <div class="percent-text"><span id="txtPersen">0</span>%</div>
             </div>
-            <h3 id="txtTerkumpul" style="color:var(--amber); font-size:32px; margin:10px 0;">Rp 0</h3>
-            <p id="txtTargetShow" style="font-size:12px; color:#555; margin-bottom:20px;">Target: Rp 0</p>
-            <input type="number" id="addMoney" placeholder="Setor Duit (Rp)">
-            <button class="btn-entry" onclick="addSaving()">SETOR SEKARANG</button>
-            <button onclick="hardReset()" style="background:none; border:none; color:#333; margin-top:30px; cursor:pointer; font-size:10px; text-decoration:underline;">RESET DATABASE</button>
+            <h3 id="txtTerkumpul" style="color:var(--amber); font-size:30px; margin:10px 0;">Rp 0</h3>
+            <p id="txtTargetVal" style="font-size:12px; color:#555; margin-bottom:15px;">Target: Rp 0</p>
+            <input type="number" id="addMoney" placeholder="Setor (Rp)">
+            <button class="btn-entry" onclick="updateSaldo()">SETOR SEKARANG</button>
+            <button onclick="hardReset()" style="background:none; border:none; color:#333; margin-top:25px; cursor:pointer; font-size:10px; text-decoration:underline;">RESET SEMUA DATA</button>
         </div>
     </div>
 
     <script>
-        const MASTER_KEY = 'NabungYuk_Data_Final_Amber'; //
-        let appData = JSON.parse(localStorage.getItem(MASTER_KEY)) || { target: 0, saved: 0, image: '' };
+        const KEY = 'NabungYuk_MASTER_STABLE';
+        let data = JSON.parse(localStorage.getItem(KEY)) || { target: 0, saved: 0, img: '' };
 
-        function updateStorage() { localStorage.setItem(MASTER_KEY, JSON.stringify(appData)); }
+        function save() { localStorage.setItem(KEY, JSON.stringify(data)); }
 
         const exCanvas = document.getElementById('explode-canvas');
         const exCtx = exCanvas.getContext('2d');
-        let particles = [];
+        let parts = [];
 
         function resize() { exCanvas.width = window.innerWidth; exCanvas.height = window.innerHeight; }
         window.onresize = resize; resize();
 
-        function explodeAction() {
+        function triggerExplosion() {
             document.getElementById('scene0').classList.add('exploding');
-            const rect = document.querySelector('.glitch-wrapper').getBoundingClientRect();
+            const rect = document.querySelector('.svg-wrapper').getBoundingClientRect();
             for(let i=0; i<180; i++) {
-                particles.push({
+                parts.push({
                     x: rect.left + rect.width/2, y: rect.top + rect.height/2,
                     size: Math.random()*12+4,
                     vX: (Math.random()-0.5)*30, vY: (Math.random()-0.8)*30,
                     color: ['#f1c40f', '#fff', '#b8860b'][Math.floor(Math.random()*3)],
-                    alpha: 1
+                    a: 1
                 });
             }
-            animateExplosion();
+            drawExplosion();
             setTimeout(() => {
-                if(appData.target > 0) { renderDash(); goTo('scene2'); } else { goTo('scene1'); }
-            }, 1200);
+                if(data.target > 0) { renderDash(); goTo('scene2'); } else { goTo('scene1'); }
+            }, 1100);
         }
 
-        function animateExplosion() {
+        function drawExplosion() {
             exCtx.clearRect(0,0,exCanvas.width,exCanvas.height);
-            particles.forEach((p, i) => {
-                p.x += p.vX; p.y += p.vY; p.vY += 0.5; p.alpha -= 0.015;
-                exCtx.globalAlpha = p.alpha; exCtx.fillStyle = p.color;
+            parts.forEach((p, i) => {
+                p.x += p.vX; p.y += p.vY; p.vY += 0.5; p.a -= 0.02;
+                exCtx.globalAlpha = p.a; exCtx.fillStyle = p.color;
                 exCtx.fillRect(p.x, p.y, p.size, p.size);
-                if(p.alpha <= 0) particles.splice(i, 1);
+                if(p.a <= 0) parts.splice(i, 1);
             });
-            if(particles.length > 0) requestAnimationFrame(animateExplosion);
+            if(parts.length > 0) requestAnimationFrame(drawExplosion);
         }
 
-        function saveTarget() {
-            const val = document.getElementById('setNominal').value;
-            const file = document.getElementById('setFoto').files[0];
-            if(!val || val <= 0) return alert("Target harus diisi Jih!");
-            appData.target = Number(val);
-            if(file) {
-                const reader = new FileReader();
-                reader.onload = (e) => { appData.image = e.target.result; finishSetup(); };
-                reader.readAsDataURL(file);
+        function saveInitialData() {
+            const v = document.getElementById('setNominal').value;
+            const f = document.getElementById('setFoto').files[0];
+            if(!v || v <= 0) return alert("Isi nominal target!");
+            data.target = Number(v);
+            if(f) {
+                const r = new FileReader();
+                r.onload = (e) => { data.img = e.target.result; finishSetup(); };
+                r.readAsDataURL(f);
             } else { finishSetup(); }
         }
-        function finishSetup() { updateStorage(); renderDash(); goTo('scene2'); }
+
+        function finishSetup() { save(); renderDash(); goTo('scene2'); }
 
         function renderDash() {
             const f = new Intl.NumberFormat('id-ID');
-            const p = Math.min((appData.saved / appData.target) * 100, 100);
+            const p = Math.min((data.saved / data.target) * 100, 100);
             document.getElementById('txtPersen').innerText = Math.floor(p);
-            document.getElementById('txtTerkumpul').innerText = "Rp " + f.format(appData.saved);
-            document.getElementById('txtTargetShow').innerText = "Target: Rp " + f.format(appData.target);
+            document.getElementById('txtTerkumpul').innerText = "Rp " + f.format(data.saved);
+            document.getElementById('txtTargetVal').innerText = "Target: Rp " + f.format(data.target);
             document.getElementById('progBar').style.strokeDashoffset = 565.48 - (p/100 * 565.48);
-            if(appData.image) { const img = document.getElementById('viewImg'); img.src = appData.image; img.style.display = 'block'; }
+            
+            if(data.img) {
+                const el = document.getElementById('viewImg');
+                el.src = data.img; el.style.display = 'block';
+            }
             if(p >= 100) document.getElementById('glowArea').classList.add('glow-100');
         }
 
-        function addSaving() {
+        function updateSaldo() {
             const v = Number(document.getElementById('addMoney').value);
             if(v <= 0) return;
-            appData.saved += v; updateStorage(); renderDash();
+            data.saved += v; save(); renderDash();
             document.getElementById('addMoney').value = '';
         }
 
@@ -204,7 +191,7 @@
             document.getElementById(id).classList.add('active');
         }
 
-        function hardReset() { if(confirm("Data ilang permanen Jih! Yakin?")) { localStorage.clear(); location.reload(); } }
+        function hardReset() { if(confirm("Data bakal ilang semua Jih! Yakin?")) { localStorage.clear(); location.reload(); } }
     </script>
 </body>
 </html>

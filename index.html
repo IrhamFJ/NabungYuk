@@ -3,84 +3,152 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NabungYUK! - Final Pro</title>
+    <title>NabungYUK! - Cyber Glass Multi-Color</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
-        :root { --green: #2ecc71; --gold: #f1c40f; --pink: #ff00c1; --cyan: #00fff9; --bg: #07070a; }
-        * { box-sizing: border-box; }
-        body, html { height: 100%; margin: 0; background: var(--bg); color: white; font-family: 'Poppins', sans-serif; display: flex; justify-content: center; align-items: center; overflow: hidden; }
+        :root { 
+            /* Palet Satu Tema (Neon Cyber) */
+            --neon-pink: #ff00c1;
+            --neon-cyan: #00fff9;
+            --neon-green: #2ecc71; 
+            --neon-purple: #a55eea;
+            --neon-gold: #f1c40f;
+            --glass-bg: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.1);
+        }
 
-        .scene { display: none; width: 100%; height: 100%; flex-direction: column; justify-content: center; align-items: center; padding: 20px; text-align: center; }
+        * { box-sizing: border-box; }
+
+        body, html { 
+            height: 100%; margin: 0; 
+            background: radial-gradient(circle at center, #1a1a2e 0%, #0a0a12 100%);
+            color: white; font-family: 'Poppins', sans-serif; 
+            display: flex; justify-content: center; align-items: center; 
+            overflow: hidden; 
+        }
+
+        /* --- BACKGROUND VIBE --- */
+        body::before {
+            content: ''; position: absolute; width: 100%; height: 100%;
+            background: url('https://www.transparenttextures.com/patterns/carbon-fibre.png');
+            opacity: 0.1; pointer-events: none;
+        }
+
+        /* --- SHARED THEME: GLASS CARD --- */
+        .card { 
+            width: 100%; max-width: 460px; 
+            background: var(--glass-bg); 
+            padding: 40px; border-radius: 30px; 
+            border: 1px solid var(--glass-border); 
+            backdrop-filter: blur(20px); 
+            box-shadow: 0 25px 50px rgba(0,0,0,0.5);
+            text-align: center;
+            position: relative;
+        }
+
+        .scene { display: none; width: 100%; height: 100%; flex-direction: column; justify-content: center; align-items: center; padding: 20px; }
         .active { display: flex; }
 
-        /* --- WELCOME & GLITCH --- */
-        .glitch-wrapper { font-size: clamp(40px, 10vw, 70px); font-weight: 900; position: relative; letter-spacing: 8px; margin-bottom: 40px; }
+        /* --- WELCOME: PINK-CYAN VIBE --- */
+        .glitch-wrapper { font-size: clamp(40px, 10vw, 70px); font-weight: 900; position: relative; letter-spacing: 8px; margin-bottom: 50px; }
         .glitch-text::before, .glitch-text::after { content: "NabungYUK!"; position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
-        .glitch-text::before { left: 3px; text-shadow: -2px 0 var(--pink); clip: rect(44px, 450px, 56px, 0); animation: g-1 0.6s infinite linear alternate-reverse; }
-        .glitch-text::after { left: -3px; text-shadow: 2px 0 var(--cyan); clip: rect(44px, 450px, 56px, 0); animation: g-2 0.6s infinite linear alternate-reverse; }
+        .glitch-text::before { left: 3px; text-shadow: -2px 0 var(--neon-pink); clip: rect(44px, 450px, 56px, 0); animation: g-1 0.6s infinite linear alternate-reverse; }
+        .glitch-text::after { left: -3px; text-shadow: 2px 0 var(--neon-cyan); clip: rect(44px, 450px, 56px, 0); animation: g-2 0.6s infinite linear alternate-reverse; }
         @keyframes g-1 { 0% { clip: rect(10px, 9999px, 85px, 0); } 100% { clip: rect(80px, 9999px, 20px, 0); } }
         @keyframes g-2 { 0% { clip: rect(70px, 9999px, 30px, 0); } 100% { clip: rect(15px, 9999px, 90px, 0); } }
 
-        /* --- SHAKE ANIMATION (Hanya pas klik Masuk) --- */
         .shake-agresif { animation: shake 0.1s infinite; }
         @keyframes shake {
-            0% { transform: translate(0,0) rotate(0); }
-            25% { transform: translate(8px, -8px) rotate(2deg); }
-            50% { transform: translate(-8px, 8px) rotate(-2deg); }
-            75% { transform: translate(8px, 8px) rotate(2deg); }
-            100% { transform: translate(-8px, -8px) rotate(-2deg); }
+            0% { transform: translate(0,0); }
+            50% { transform: translate(10px, -10px); }
+            100% { transform: translate(-10px, 10px); }
         }
 
-        /* --- CARDS & UI --- */
-        .card { width: 100%; max-width: 450px; background: rgba(255,255,255,0.03); padding: 35px; border-radius: 30px; border: 1px solid rgba(255,255,255,0.1); backdrop-filter: blur(20px); }
-        label { display: block; text-align: left; font-size: 12px; color: #888; margin: 15px 0 5px 5px; text-transform: uppercase; }
-        input { width: 100%; padding: 16px; background: #000; border: 2px solid #222; border-radius: 12px; color: white; font-size: 16px; }
-        input:focus { border-color: var(--green); outline: none; }
-        
-        .btn { width: 100%; padding: 18px; border: none; border-radius: 12px; font-weight: 800; cursor: pointer; text-transform: uppercase; transition: 0.2s; }
-        .btn-green { background: var(--green); color: #000; margin-top: 20px; }
-        .btn-gold { background: var(--gold); color: #000; margin-top: 20px; }
-        .btn:active { transform: scale(0.95); }
+        /* --- SETUP: GREEN VIBE --- */
+        #scene1 h2 { color: var(--neon-green); text-shadow: 0 0 15px rgba(46, 204, 113, 0.4); }
+        #scene1 .btn-action { background: var(--neon-green); box-shadow: 0 0 20px rgba(46, 204, 113, 0.3); color: #000; }
 
-        /* --- PROGRESS & GLOW --- */
-        .circle-box { position: relative; width: 220px; height: 220px; margin: 20px auto; }
-        svg { transform: rotate(-90deg); width: 220px; height: 220px; }
-        .circle-bg { fill: none; stroke: rgba(255,255,255,0.05); stroke-width: 20; }
-        .circle-prog { fill: none; stroke: var(--green); stroke-width: 20; stroke-linecap: round; stroke-dasharray: 565.48; stroke-dashoffset: 565.48; transition: 1s ease-out; }
+        /* --- DASHBOARD: PURPLE-GOLD VIBE --- */
+        #scene2 h2 { color: var(--neon-purple); text-shadow: 0 0 15px rgba(165, 94, 234, 0.4); }
+        #scene2 .btn-action { background: var(--neon-gold); box-shadow: 0 0 20px rgba(241, 196, 15, 0.3); color: #000; }
+
+        /* --- UI ELEMENTS (UNIFIED) --- */
+        label { display: block; text-align: left; font-size: 11px; color: #888; margin: 15px 0 5px 5px; text-transform: uppercase; letter-spacing: 1px; }
+        input { 
+            width: 100%; padding: 16px; background: rgba(0,0,0,0.4); 
+            border: 1px solid var(--glass-border); border-radius: 12px; 
+            color: white; font-size: 16px; transition: 0.3s;
+        }
+        input:focus { outline: none; border-color: white; box-shadow: 0 0 15px rgba(255,255,255,0.1); }
         
+        .btn-action { 
+            width: 100%; padding: 18px; border: none; border-radius: 12px; 
+            font-weight: 800; cursor: pointer; text-transform: uppercase; 
+            margin-top: 25px; transition: 0.3s;
+        }
+        .btn-action:hover { transform: translateY(-3px); filter: brightness(1.1); }
+
+        /* --- PROGRESS SYSTEM (FIX GLOW BOCOR) --- */
+        .circle-box { 
+            position: relative; width: 280px; height: 280px; 
+            margin: 20px auto; display: flex; justify-content: center; align-items: center;
+            overflow: visible !important; 
+        }
+        svg { width: 260px; height: 260px; transform: rotate(-90deg); overflow: visible !important; }
+        .circle-bg { fill: none; stroke: rgba(255,255,255,0.05); stroke-width: 18; }
+        .circle-prog { 
+            fill: none; stroke: var(--neon-cyan); stroke-width: 18; 
+            stroke-linecap: round; stroke-dasharray: 565.48; stroke-dashoffset: 565.48; 
+            transition: 1s ease-out; filter: drop-shadow(0 0 8px var(--neon-cyan));
+        }
+        
+        /* 100% MODE: GOLD THEME JIH! */
         .glow-100 .circle-prog { 
-            stroke: var(--gold); stroke-width: 25;
-            filter: drop-shadow(0 0 15px var(--gold)) drop-shadow(0 0 40px var(--gold));
+            stroke: var(--neon-gold); stroke-width: 22;
+            filter: drop-shadow(0 0 15px var(--neon-gold)) drop-shadow(0 0 40px var(--neon-gold));
         }
-        .percent-text { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 45px; font-weight: 900; }
+        .percent-text { position: absolute; font-size: 50px; font-weight: 900; }
 
-        .target-img { width: 100px; height: 100px; border-radius: 50%; object-fit: cover; border: 3px solid var(--green); margin-bottom: 15px; display: none; }
+        .target-img { 
+            width: 110px; height: 110px; border-radius: 50%; object-fit: cover; 
+            border: 3px solid var(--neon-purple); margin: 0 auto 15px; display: none;
+            box-shadow: 0 0 15px rgba(165, 94, 234, 0.3);
+        }
+
+        .reset-link { 
+            background: none; border: none; color: #444; margin-top: 25px; 
+            cursor: pointer; font-size: 10px; text-decoration: underline; text-transform: uppercase;
+        }
     </style>
 </head>
 <body>
 
+    <canvas id="confetti-canvas" style="position:fixed; top:0; left:0; width:100%; height:100%; pointer-events:none; z-index:100;"></canvas>
+
     <div id="scene0" class="scene active">
         <div id="welcomeContent">
             <div class="glitch-wrapper"><div class="glitch-text">NabungYUK!</div></div>
-            <button class="btn btn-green" style="width: auto; padding: 15px 50px;" onclick="startApp()">MASUK</button>
+            <button class="btn-action" style="background: linear-gradient(90deg, var(--neon-pink), var(--neon-cyan));" onclick="startApp()">Masuk Protokol</button>
         </div>
     </div>
 
     <div id="scene1" class="scene">
         <div class="card">
-            <h2 style="color: var(--green); margin: 0;">SET TARGET</h2>
-            <label>Nominal Target (Rp) *</label>
-            <input type="number" id="setNominal" placeholder="Contoh: 5000000">
-            <label>Foto Barang (Opsional)</label>
-            <input type="file" id="setFoto" accept="image/*">
-            <button class="btn btn-green" onclick="saveInitialTarget()">Kunci Target</button>
+            <h2>Mulai Target</h2>
+            <div style="text-align: left;">
+                <label>Nominal Target (Rp)</label>
+                <input type="number" id="setNominal" placeholder="Misal: 5000000">
+                <label>Visual Barang (Opsional)</label>
+                <input type="file" id="setFoto" accept="image/*">
+                <button class="btn-action" onclick="saveInitialTarget()">Kunci Misi</button>
+            </div>
         </div>
     </div>
 
     <div id="scene2" class="scene">
-        <div class="card" id="dashCard">
+        <div class="card">
             <img id="viewImg" class="target-img">
-            <h3 id="viewTitle" style="margin: 0 0 20px 0; letter-spacing: 1px;">MY PROGRESS</h3>
+            <h2 id="viewTitle">DASHBOARD</h2>
             
             <div class="circle-box" id="glowArea">
                 <svg viewBox="0 0 200 200">
@@ -90,101 +158,72 @@
                 <div class="percent-text"><span id="txtPersen">0</span>%</div>
             </div>
 
-            <div style="background: rgba(0,0,0,0.3); padding: 15px; border-radius: 15px; margin-bottom: 20px;">
-                <span style="font-size: 11px; color: #777;">TERKUMPUL</span>
-                <div id="txtTerkumpul" style="font-size: 24px; font-weight: 900; color: var(--green);">Rp 0</div>
-                <span style="font-size: 11px; color: #555;">DARI TARGET: <span id="txtTarget">Rp 0</span></span>
+            <div style="background: rgba(0,0,0,0.3); padding: 15px; border-radius: 20px; border: 1px solid var(--glass-border);">
+                <span style="font-size: 11px; color: var(--neon-purple); font-weight: 700;">SALDO SAAT INI</span>
+                <div id="txtTerkumpul" style="font-size: 28px; font-weight: 900; color: var(--neon-green);">Rp 0</div>
+                <div style="font-size: 10px; color: #666; margin-top: 5px;">TARGET: <span id="txtTarget" style="color:#aaa;">Rp 0</span></div>
             </div>
 
-            <label>Nabung Hari Ini (Rp)</label>
-            <input type="number" id="addMoney" placeholder="Masukkan nominal">
-            <button class="btn btn-gold" onclick="addSaving()">Isi Celengan</button>
-            <button onclick="hardReset()" style="background:none; border:none; color:#444; margin-top:20px; cursor:pointer; font-size:10px; text-decoration: underline;">RESET SEMUA DATA</button>
+            <div style="text-align: left;">
+                <label>Isi Celengan (Rp)</label>
+                <input type="number" id="addMoney" placeholder="Setor hari ini">
+                <button class="btn-action" onclick="addSaving()">Tambah Saldo</button>
+            </div>
+            <button onclick="hardReset()" class="reset-link">Reset Sistem</button>
         </div>
     </div>
 
     <script>
         // DATA CENTRALIZATION (ANTI-ILANG)
-        let appData = JSON.parse(localStorage.getItem('NabungYuk_Data')) || {
-            target: 0,
-            saved: 0,
-            image: ''
+        let appData = JSON.parse(localStorage.getItem('NabungYuk_Final_Data')) || {
+            target: 0, saved: 0, image: ''
         };
 
-        function updateStorage() {
-            localStorage.setItem('NabungYuk_Data', JSON.stringify(appData));
-        }
+        const f = new Intl.NumberFormat('id-ID');
+        function updateStorage() { localStorage.setItem('NabungYuk_Final_Data', JSON.stringify(appData)); }
 
-        // SCENE CONTROLLER
-        function goTo(id) {
-            document.querySelectorAll('.scene').forEach(s => s.classList.remove('active'));
-            document.getElementById(id).classList.add('active');
-        }
-
-        // STEP 1: WELCOME TO NEXT
         function startApp() {
             const welcome = document.getElementById('welcomeContent');
-            welcome.classList.add('shake-agresif'); // SHAKE CEPET JIH!
-
+            welcome.classList.add('shake-agresif');
             setTimeout(() => {
                 welcome.classList.remove('shake-agresif');
-                if (appData.target > 0) {
-                    renderDashboard();
-                    goTo('scene2');
-                } else {
-                    goTo('scene1');
-                }
-            }, 1200); // Guncang 1.2 detik
+                if (appData.target > 0) { renderDashboard(); goTo('scene2'); } 
+                else { goTo('scene1'); }
+            }, 1000);
         }
 
-        // STEP 2: SAVE SETUP
         function saveInitialTarget() {
             const nom = document.getElementById('setNominal').value;
             const file = document.getElementById('setFoto').files[0];
-
-            if (!nom || nom <= 0) return alert("Target wajib diisi, Jih!");
-
+            if (!nom || nom <= 0) return alert("Isi target dulu Boss!");
             appData.target = Number(nom);
-
             if (file) {
                 const reader = new FileReader();
-                reader.onloadend = () => {
-                    appData.image = reader.result;
-                    updateStorage();
-                    renderDashboard();
-                    goTo('scene2');
-                };
+                reader.onloadend = () => { appData.image = reader.result; finishSetup(); };
                 reader.readAsDataURL(file);
-            } else {
-                updateStorage();
-                renderDashboard();
-                goTo('scene2');
-            }
+            } else { finishSetup(); }
         }
 
-        // STEP 3: MAIN LOGIC
-        function renderDashboard() {
-            const f = new Intl.NumberFormat('id-ID');
-            const persen = Math.min((appData.saved / appData.target) * 100, 100);
+        function finishSetup() { updateStorage(); renderDashboard(); goTo('scene2'); }
 
+        function renderDashboard() {
+            const persen = Math.min((appData.saved / appData.target) * 100, 100);
             document.getElementById('txtPersen').innerText = Math.floor(persen);
             document.getElementById('txtTerkumpul').innerText = "Rp " + f.format(appData.saved);
             document.getElementById('txtTarget').innerText = "Rp " + f.format(appData.target);
-
+            
             // Progress Bar (Keliling 2 * PI * 90 = 565.48)
             const offset = 565.48 - (persen / 100 * 565.48);
             document.getElementById('progBar').style.strokeDashoffset = offset;
 
-            // Foto
             if (appData.image) {
                 const img = document.getElementById('viewImg');
-                img.src = appData.image;
-                img.style.display = 'block';
+                img.src = appData.image; img.style.display = 'block';
             }
 
-            // Glow Emas 100%
-            if (persen >= 100) {
+            if (persen >= 100 && appData.target > 0) {
                 document.getElementById('glowArea').classList.add('glow-100');
+                startConfetti();
             } else {
                 document.getElementById('glowArea').classList.remove('glow-100');
             }
@@ -193,21 +232,44 @@
         function addSaving() {
             const input = document.getElementById('addMoney');
             const val = Number(input.value);
-
-            if (val <= 0) return alert("Duitnya mana? Isi dulu!");
-
+            if (val <= 0) return alert("Masukkan nominal yang bener Jih!");
             appData.saved += val;
-            updateStorage();
-            renderDashboard();
+            updateStorage(); renderDashboard();
             input.value = "";
-            alert("Duit masuk! Lanjutkan, Jih!");
+        }
+
+        function goTo(id) {
+            document.querySelectorAll('.scene').forEach(s => s.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
         }
 
         function hardReset() {
-            if (confirm("Data target dan tabungan bakal ilang. Yakin lu?")) {
-                localStorage.clear();
-                location.reload();
+            if (confirm("Data bakal kehapus semua. Yakin?")) {
+                localStorage.clear(); location.reload();
             }
+        }
+
+        // CONFETTI SYSTEM
+        const canvas = document.getElementById('confetti-canvas');
+        const ctx = canvas.getContext('2d');
+        let confetti = [];
+        function startConfetti() {
+            canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+            for(let i=0; i<100; i++) confetti.push({
+                x: Math.random()*canvas.width, y: Math.random()*canvas.height - canvas.height,
+                size: Math.random()*10+5, color: ['#f1c40f','#fff','#e67e22'][Math.floor(Math.random()*3)],
+                vel: Math.random()*5+2
+            });
+            drawConfetti();
+        }
+        function drawConfetti() {
+            ctx.clearRect(0,0,canvas.width,canvas.height);
+            confetti.forEach(p => {
+                p.y += p.vel; ctx.fillStyle = p.color;
+                ctx.fillRect(p.x, p.y, p.size, p.size);
+                if(p.y > canvas.height) p.y = -20;
+            });
+            requestAnimationFrame(drawConfetti);
         }
     </script>
 </body>

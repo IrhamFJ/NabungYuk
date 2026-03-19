@@ -3,481 +3,185 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NabungYUK! - Glow Mode & Split Scene</title>
+    <title>NabungYUK! - Glitch & Pro Mode</title>
     <style>
-        /* CSS Utama - Modern & Gelap biar Glow Nonjol */
-        body {
-            font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, #10101a 0%, #1a1a2e 100%);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            margin: 0;
-            color: white;
-            overflow: hidden;
+        :root { --neon-green: #2ecc71; --neon-gold: #f1c40f; --bg-dark: #0a0a12; }
+        body { font-family: 'Poppins', sans-serif; background: var(--bg-dark); color: white; margin: 0; display: flex; justify-content: center; align-items: center; min-height: 100vh; overflow: hidden; }
+
+        /* --- GLOBAL SCENE MANAGEMENT --- */
+        .scene { display: none; width: 100%; max-width: 400px; padding: 30px; text-align: center; box-sizing: border-box; animation: fadeIn 0.5s ease; }
+        .active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* --- SCENE 0: WELCOME GLITCH --- */
+        .glitch-wrapper { font-size: 50px; font-weight: 900; position: relative; color: white; letter-spacing: 5px; text-transform: uppercase; }
+        .glitch-text::before, .glitch-text::after { content: "NabungYUK!"; position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
+        .glitch-text::before { left: 3px; text-shadow: -3px 0 #ff00c1; clip: rect(44px, 450px, 56px, 0); animation: glitch-1 1s infinite linear alternate-reverse; }
+        .glitch-text::after { left: -3px; text-shadow: -3px 0 #00fff9; clip: rect(44px, 450px, 56px, 0); animation: glitch-2 1s infinite linear alternate-reverse; }
+        @keyframes glitch-1 { 0% { clip: rect(10px, 9999px, 85px, 0); } 100% { clip: rect(80px, 9999px, 20px, 0); } }
+        @keyframes glitch-2 { 0% { clip: rect(70px, 9999px, 30px, 0); } 100% { clip: rect(15px, 9999px, 90px, 0); } }
+
+        /* --- UI ELEMENTS --- */
+        .card { background: rgba(255,255,255,0.05); padding: 25px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.1); backdrop-filter: blur(10px); }
+        input[type="number"], input[type="file"] { width: 100%; padding: 15px; margin: 15px 0; background: #000; border: 2px solid #333; border-radius: 10px; color: white; box-sizing: border-box; }
+        input:focus { border-color: var(--neon-green); outline: none; }
+        .btn { width: 100%; padding: 15px; border: none; border-radius: 10px; font-weight: 800; cursor: pointer; text-transform: uppercase; transition: 0.3s; margin-top: 10px; }
+        .btn-primary { background: var(--neon-green); color: black; box-shadow: 0 5px 15px rgba(46, 204, 113, 0.4); }
+        .btn-gold { background: var(--neon-gold); color: black; box-shadow: 0 5px 15px rgba(241, 196, 15, 0.4); }
+
+        /* --- CIRCULAR PROGRESS & GLOW --- */
+        .circle-box { position: relative; width: 220px; height: 220px; margin: 20px auto; }
+        svg { transform: rotate(-90deg); width: 220px; height: 220px; }
+        .circle-bg { fill: none; stroke: #222; stroke-width: 20; }
+        .circle-progress { fill: none; stroke: var(--neon-green); stroke-width: 20; stroke-linecap: round; stroke-dasharray: 565.48; stroke-dashoffset: 565.48; transition: 1s ease-out; }
+        .glow-100 .circle-progress { 
+            stroke: var(--neon-gold); 
+            stroke-width: 25;
+            filter: drop-shadow(0 0 15px var(--neon-gold)) drop-shadow(0 0 40px var(--neon-gold)); 
         }
+        .percent-label { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 40px; font-weight: 800; }
 
-        /* --- KONTENER UTAMA (Aplikasi) --- */
-        .app-container {
-            position: relative;
-            width: 100%;
-            max-width: 400px;
-            z-index: 10;
-        }
-
-        /* Gaya Card Umum */
-        .card {
-            background: rgba(255, 255, 255, 0.03);
-            padding: 30px;
-            border-radius: 25px;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.6);
-            text-align: center;
-            border: 1px solid rgba(255,255,255,0.08);
-            backdrop-filter: blur(15px);
-            transition: opacity 0.4s ease, transform 0.4s ease;
-        }
-
-        h2 {
-            color: #2ecc71;
-            margin-bottom: 5px;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            text-shadow: 0 0 10px rgba(46, 204, 113, 0.3);
-        }
-
-        /* --- SCENE 1: DASHBOARD (Dashboard Scene) --- */
-        #scene-dashboard {
-            opacity: 1;
-            transform: scale(1);
-            display: block; /* Default tampil */
-        }
-
-        /* Progress Lingkaran */
-        .circle-container {
-            position: relative;
-            width: 240px;
-            height: 240px;
-            margin: 25px auto;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        svg {
-            transform: rotate(-90deg); /* Mulai dari atas */
-            width: 240px;
-            height: 240px;
-        }
-
-        .circle-bg {
-            fill: none;
-            stroke: rgba(255,255,255,0.06);
-            stroke-width: 22; /* TEBEL */
-        }
-
-        .circle-progress {
-            fill: none;
-            stroke: #2ecc71;
-            stroke-width: 22; /* TEBEL */
-            stroke-linecap: round;
-            stroke-dasharray: 628.3; /* Keliling = 2 * PI * 100 */
-            stroke-dashoffset: 628.3; /* Mulai kosong */
-            transition: stroke-dashoffset 1s ease-out, stroke 0.5s ease, filter 0.5s ease;
-        }
-
-        /* Teks Tengah */
-        .percentage-text {
-            position: absolute;
-            font-size: 50px;
-            font-weight: 800;
-            color: white;
-            text-shadow: 0 0 10px rgba(255,255,255,0.4);
-            display: flex;
-            align-items: baseline;
-        }
-
-        .percentage-text span {
-            font-size: 22px;
-            font-weight: 400;
-            opacity: 0.8;
-            margin-left: 3px;
-        }
-
-        /* Info Tabungan */
-        .info-tabungan {
-            background: rgba(0,0,0,0.2);
-            padding: 15px;
-            border-radius: 12px;
-            margin-bottom: 25px;
-            border: 1px solid rgba(255,255,255,0.05);
-        }
-
-        .info-tabungan p { margin: 5px 0; font-size: 14px; opacity: 0.8; }
-        .info-tabungan strong { font-size: 18px; color: #fff; }
-
-        /* --- STATUS 100% GLOW EMAS TEBEL --- */
-        .status-100 .circle-progress {
-            stroke: #f1c40f; /* EMAS SOLID */
-            stroke-width: 28; /* MAKIN TEBEL BANGET */
-            /* GLOW EMAS LUMAYAN TERANG Berlapis */
-            filter: 
-                drop-shadow(0 0 15px rgba(241, 196, 15, 1))
-                drop-shadow(0 0 30px rgba(241, 196, 15, 0.8))
-                drop-shadow(0 0 50px rgba(241, 196, 15, 0.6));
-        }
-
-        .status-100 .percentage-text {
-            color: #f1c40f;
-            text-shadow: 0 0 20px rgba(241, 196, 15, 0.7);
-        }
-
-        /* --- SCENE 2: INPUT UPDATE (Input Scene) --- */
-        #scene-input {
-            opacity: 0;
-            transform: scale(0.9);
-            display: none; /* Default sembunyi */
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-        }
-
-        /* Gaya Card Input */
-        .card-input {
-            text-align: left;
-        }
-
-        .input-group {
-            margin-top: 15px;
-        }
-
-        label {
-            font-size: 12px;
-            text-transform: uppercase;
-            color: #aaa;
-            letter-spacing: 1px;
-            margin-left: 5px;
-            display: block;
-        }
-
-        input {
-            width: 100%;
-            padding: 14px 18px;
-            margin: 8px 0 20px 0;
-            background: rgba(0,0,0,0.3);
-            border: 1px solid rgba(255,255,255,0.12);
-            border-radius: 10px;
-            color: white;
-            font-size: 16px;
-            box-sizing: border-box;
-            transition: border-color 0.3s, background 0.3s;
-        }
-
-        input:focus {
-            outline: none;
-            border-color: #2ecc71;
-            background: rgba(0,0,0,0.4);
-        }
-
-        /* Tombol Umum */
-        .btn {
-            width: 100%;
-            padding: 16px;
-            border: none;
-            color: white;
-            font-weight: 700;
-            font-size: 16px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            border-radius: 10px;
-            cursor: pointer;
-            transition: transform 0.1s, box-shadow 0.3s, background 0.3s;
-            box-sizing: border-box;
-        }
-
-        .btn:active { transform: scale(0.98); }
-
-        /* Tombol Dashboard (Update) */
-        .btn-update {
-            background: linear-gradient(90deg, #2ecc71, #27ae60);
-            box-shadow: 0 8px 20px rgba(46, 204, 113, 0.2);
-        }
-        .btn-update:hover { box-shadow: 0 10px 30px rgba(46, 204, 113, 0.4); }
-
-        /* Tombol Simpan (Input Scene) */
-        .btn-simpan {
-            background: linear-gradient(90deg, #3498db, #2980b9); /* Warna Biru biar beda */
-            box-shadow: 0 8px 20px rgba(52, 152, 219, 0.2);
-        }
-        .btn-simpan:hover { box-shadow: 0 10px 30px rgba(52, 152, 219, 0.4); }
-
-        /* Tombol Reset (Kecil) */
-        .btn-reset {
-            background: rgba(231, 76, 60, 0.08);
-            border: 1px solid rgba(231, 76, 60, 0.3);
-            color: #e74c3c;
-            font-size: 12px;
-            padding: 10px;
-            margin-top: 20px;
-            width: auto;
-            display: inline-block;
-        }
-        .btn-reset:hover { background: rgba(231, 76, 60, 0.2); }
-
-        /* Tombol Back */
-        .btn-back {
-            background: none;
-            border: none;
-            color: #aaa;
-            font-size: 14px;
-            cursor: pointer;
-            margin-bottom: 20px;
-            padding: 0;
-            text-decoration: underline;
-        }
-        .btn-back:hover { color: white; }
-
-        /* --- Animasi Scene Transition --- */
-        .scene-active {
-            opacity: 1 !important;
-            transform: scale(1) !important;
-            display: block !important;
-        }
-
-        /* --- Confetti Canvas (Tetep Ada biar Mewah) --- */
-        #confetti-canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 1;
-        }
+        /* --- IMAGE PREVIEW --- */
+        .target-img-preview { width: 100px; height: 100px; border-radius: 50%; object-fit: cover; border: 3px solid var(--neon-green); margin-bottom: 10px; display: none; margin: 0 auto 15px; }
     </style>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
 
-<canvas id="confetti-canvas"></canvas>
+    <div id="scene0" class="scene active">
+        <div class="glitch-wrapper">
+            <div class="glitch-text">NabungYUK!</div>
+        </div>
+        <p style="margin-top: 20px; color: #888;">Nabung jadi lebih gahar...</p>
+    </div>
 
-<div class="app-container">
-    
-    <div id="scene-dashboard" class="card scene-active status-100">
-        <h2>NabungYUK!</h2>
+    <div id="scene1" class="scene">
+        <div class="card">
+            <h2 style="color: var(--neon-green);">Set Target Lu</h2>
+            <label>Nominal Target (Rp) *</label>
+            <input type="number" id="targetAmount" placeholder="Contoh: 5000000">
+            <label>Foto Barang Impian (Opsional)</label>
+            <input type="file" id="targetFile" accept="image/*">
+            <button class="btn btn-primary" onclick="startNabung()">Gass Menabung!</button>
+        </div>
+    </div>
+
+    <div id="scene2" class="scene">
+        <img id="viewTargetImg" class="target-img-preview">
+        <h2 id="viewTargetName">Target Lu</h2>
         
-        <div class="circle-container" id="circleContainer">
-            <svg viewBox="0 0 220 220">
-                <circle class="circle-bg" cx="110" cy="110" r="100"></circle>
-                <circle class="circle-progress" id="progressObject" cx="110" cy="110" r="100"></circle>
+        <div class="circle-box" id="circleBox">
+            <svg viewBox="0 0 200 200">
+                <circle class="circle-bg" cx="100" cy="100" r="90"></circle>
+                <circle class="circle-progress" id="progBar" cx="100" cy="100" r="90"></circle>
             </svg>
-            <div class="percentage-text">
-                <div id="persenText">100</div>
-                <span>%</span>
-            </div>
+            <div class="percent-label"><span id="txtPersen">0</span>%</div>
         </div>
 
-        <div class="info-tabungan">
-            <p>Target: <strong id="displayTarget">Rp 1.000.000</strong></p>
-            <p>Terkumpul: <strong id="displayTerkumpul" style="color: #2ecc71;">Rp 1.000.000</strong></p>
-        </div>
-
-        <button class="btn btn-update" onclick="switchScene('input')">Update Tabungan</button>
-    </div>
-
-    <div id="scene-input" class="card card-input">
-        <button class="btn-back" onclick="switchScene('dashboard')">← Kembali ke Dashboard</button>
-        <h2>Update Data</h2>
-        
-        <div class="input-group">
-            <label>🎯 Set/Ubah Target Total (Rp)</label>
-            <input type="number" id="inputTarget" placeholder="Contoh: 5000000">
-            
-            <label>💰 Masukin Duit Baru (Rp)</label>
-            <input type="number" id="inputNabung" placeholder="Nominal nabung hari ini">
-            
-            <button class="btn btn-simpan" onclick="simpanData()">Gas Simpan!</button>
-        </div>
-
-        <div style="text-align: center;">
-            <button onclick="resetData()" class="btn btn-reset">Reset Semua Data</button>
+        <div class="card">
+            <p>Terkumpul: <b id="txtTerkumpul">Rp 0</b></p>
+            <p style="font-size: 12px; color: #aaa;">Target: <span id="txtTargetTotal">Rp 0</span></p>
+            <hr style="opacity: 0.1;">
+            <label style="font-size: 12px;">Masukin Nominal (Rp)</label>
+            <input type="number" id="addAmount" placeholder="Berapa hari ini?">
+            <label style="font-size: 12px;">Bukti Nota/Duit (Opsional)</label>
+            <input type="file" id="proofFile" accept="image/*">
+            <button class="btn btn-gold" onclick="tambahTabungan()">Isi Celengan</button>
+            <button onclick="resetSemua()" style="background:none; border:none; color:#555; margin-top:15px; cursor:pointer; font-size:10px;">Reset Progress</button>
         </div>
     </div>
 
-</div>
+    <script>
+        let targetValue = localStorage.getItem('target_val') || 0;
+        let currentSaved = localStorage.getItem('saved_val') || 0;
+        let targetImg = localStorage.getItem('target_img') || '';
 
-<script>
-    // --- LOGIKA UTAMA & SCENE SWITCHING ---
-    let totalNabung = Number(localStorage.getItem('total_glow')) || 0;
-    let targetNabung = Number(localStorage.getItem('target_glow')) || 0;
-    const kelilingLingkaran = 628.3; // 2 * PI * 100
+        // -- LOGIKA SCENE --
+        window.onload = () => {
+            setTimeout(() => {
+                if (targetValue > 0) {
+                    showScene('scene2');
+                    renderDashboard();
+                } else {
+                    showScene('scene1');
+                }
+            }, 3000); // Glitch tampil 3 detik
+        };
 
-    const sceneDashboard = document.getElementById('scene-dashboard');
-    const sceneInput = document.getElementById('scene-input');
-    const progressObj = document.getElementById('progressObject');
-    const persenText = document.getElementById('persenText');
-    const formatter = new Intb.NumberFormat('id-ID');
-
-    // FUNGSI SWITCH SCENE
-    function switchScene(sceneName) {
-        if (sceneName === 'input') {
-            sceneDashboard.classList.remove('scene-active');
-            sceneInput.classList.add('scene-active');
-        } else {
-            sceneInput.classList.remove('scene-active');
-            sceneDashboard.classList.add('scene-active');
-            renderProgress(); // Render ulang pas balik
+        function showScene(id) {
+            document.querySelectorAll('.scene').forEach(s => s.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
         }
-    }
 
-    // FUNGSI UTAMA RENDER
-    function renderProgress() {
-        document.getElementById('displayTarget').innerText = "Rp " + formatter.format(targetNabung);
-        document.getElementById('displayTerkumpul').innerText = "Rp " + formatter.format(totalNabung);
+        // -- SCENE 1: START --
+        function startNabung() {
+            const val = document.getElementById('targetAmount').value;
+            const file = document.getElementById('targetFile').files[0];
 
-        let persentase = targetNabung > 0 ? (totalNabung / targetNabung) * 100 : 0;
-        let persenTampil = Math.min(persentase, 100);
-        
-        // Update Angka
-        persenText.innerText = persenTampil.toFixed(0);
+            if (!val || val <= 0) return alert("Isi nominal targetnya dulu, Jih!");
 
-        // Update SVG Progress (Diem, cuma Garis)
-        const offset = kelilingLingkaran - (persenTampil / 100 * kelilingLingkaran);
-        progressObj.style.strokeDashoffset = offset;
+            targetValue = val;
+            localStorage.setItem('target_val', val);
 
-        // --- CEK STATUS 100% GLOW EMAS TEBEL ---
-        if (persentase >= 100 && targetNabung > 0) {
-            if (!sceneDashboard.classList.contains('status-100')) {
-                sceneDashboard.classList.add('status-100');
-                startConfetti(); 
+            if (file) {
+                const reader = new FileReader();
+                reader.onloadend = () => {
+                    targetImg = reader.result;
+                    localStorage.setItem('target_img', targetImg);
+                    completeStart();
+                };
+                reader.readAsDataURL(file);
+            } else {
+                completeStart();
             }
-        } else {
-            sceneDashboard.classList.remove('status-100');
-            stopConfetti();
-        }
-    }
-
-    // FUNGSI SIMPAN DATA (Scene 2)
-    function simpanData() {
-        let inTarget = document.getElementById('inputTarget').value;
-        let inNabung = document.getElementById('inputNabung').value;
-        let dataChanged = false;
-
-        if (inTarget && Number(inTarget) > 0) {
-            targetNabung = Number(inTarget);
-            localStorage.setItem('target_glow', targetNabung);
-            document.getElementById('inputTarget').value = "";
-            dataChanged = true;
         }
 
-        if (targetNabung <= 0) {
-            alert("Set target dulu dong, Boss!");
-            return;
+        function completeStart() {
+            showScene('scene2');
+            renderDashboard();
         }
 
-        if (inNabung && Number(inNabung) > 0) {
-            totalNabung += Number(inNabung);
-            localStorage.setItem('total_glow', totalNabung);
-            document.getElementById('inputNabung').value = "";
-            dataChanged = true;
+        // -- SCENE 2: DASHBOARD --
+        function renderDashboard() {
+            const persen = Math.min((currentSaved / targetValue) * 100, 100);
+            document.getElementById('txtPersen').innerText = Math.floor(persen);
+            document.getElementById('txtTerkumpul').innerText = "Rp " + Number(currentSaved).toLocaleString();
+            document.getElementById('txtTargetTotal').innerText = "Rp " + Number(targetValue).toLocaleString();
+
+            const offset = 565.48 - (persen / 100 * 565.48);
+            document.getElementById('progBar').style.strokeDashoffset = offset;
+
+            if (targetImg) {
+                const img = document.getElementById('viewTargetImg');
+                img.src = targetImg;
+                img.style.display = 'block';
+            }
+
+            if (persen >= 100) {
+                document.getElementById('circleBox').classList.add('glow-100');
+            } else {
+                document.getElementById('circleBox').classList.remove('glow-100');
+            }
         }
 
-        if (dataChanged) {
-            alert("Data berhasil disimpan! Balik ke Dashboard...");
-            switchScene('dashboard'); // Balik otomatis
-        } else {
-            alert("Kagak ada data yang diisi, Boss.");
+        function tambahTabungan() {
+            const input = document.getElementById('addAmount');
+            const nominal = Number(input.value);
+
+            if (nominal <= 0) return alert("Masukin duitnya yang bener, Jih!");
+
+            currentSaved = Number(currentSaved) + nominal;
+            localStorage.setItem('saved_val', currentSaved);
+            input.value = "";
+            renderDashboard();
+            alert("Duit tersimpan! Semangat Boss!");
         }
-    }
 
-    function resetData() {
-        if(confirm("Yakin mau hapus data? Ntar nyesel lho...")) {
-            localStorage.removeItem('total_glow');
-            localStorage.removeItem('target_glow');
-            totalNabung = 0;
-            targetNabung = 0;
-            document.getElementById('inputTarget').value = "";
-            document.getElementById('inputNabung').value = "";
-            alert("Data dihapus. Balik ke Dashboard...");
-            switchScene('dashboard');
+        function resetSemua() {
+            if (confirm("Yakin mau hapus semua? Data ilang permanen lho!")) {
+                localStorage.clear();
+                location.reload();
+            }
         }
-    }
-
-    // --- SISTEM CONFETTI EMAS Mewah (Tetep Ada) ---
-    const canvas = document.getElementById('confetti-canvas');
-    const ctx = canvas.getContext('2d');
-    
-    function resizeCanvas() {
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-    }
-    resizeCanvas();
-    window.addEventListener('resize', resizeCanvas);
-
-    let confetti = [];
-    const confettiCount = 120; 
-    const gravity = 0.6;
-    const terminalVelocity = 6;
-    const drag = 0.08;
-    const colors = ['#f1c40f', '#f39c12', '#e67e22', '#fff'];
-
-    let confettiActive = false;
-    let animationId;
-
-    class Particle {
-        constructor() {
-            this.x = Math.random() * canvas.width;
-            this.y = Math.random() * canvas.height - canvas.height; 
-            this.size = Math.random() * 7 + 3;
-            this.velocity = { x: Math.random() * 6 - 3, y: Math.random() * 12 + 6 };
-            this.rotation = Math.random() * 360;
-            this.rotationSpeed = Math.random() * 12 - 6;
-            this.color = colors[Math.floor(Math.random() * colors.length)];
-        }
-        update() {
-            this.velocity.y += gravity;
-            this.velocity.y = Math.min(this.velocity.y, terminalVelocity);
-            this.velocity.x -= this.velocity.x * drag;
-            this.x += this.velocity.x;
-            this.y += this.velocity.y;
-            this.rotation += this.rotationSpeed;
-            if (this.y > canvas.height) { this.y = -this.size; this.velocity.y = Math.random() * 12 + 6; }
-        }
-        draw() {
-            ctx.save();
-            ctx.translate(this.x, this.y);
-            ctx.rotate(this.rotation * Math.PI / 180);
-            ctx.fillStyle = this.color;
-            ctx.fillRect(-this.size / 2, -this.size / 2, this.size, this.size);
-            ctx.restore();
-        }
-    }
-
-    function startConfetti() {
-        if (confettiActive) return;
-        confettiActive = true;
-        confetti = [];
-        for (let i = 0; i < confettiCount; i++) { confetti.push(new Particle()); }
-        animateConfetti();
-    }
-    function stopConfetti() {
-        confettiActive = false;
-        if (animationId) { cancelAnimationFrame(animationId); }
-        ctx.clearRect(0, 0, canvas.width, canvas.height); 
-    }
-    function animateConfetti() {
-        if (!confettiActive) return;
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        confetti.forEach(p => { p.update(); p.draw(); });
-        animationId = requestAnimationFrame(animateConfetti);
-    }
-
-    // Jalankan render pertama kali (Dashboard)
-    renderProgress();
-
-</script>
-
+    </script>
 </body>
 </html>

@@ -3,16 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NabungYUK! - Anti-Error Master</title>
+    <title>NabungYUK! - Final Shield</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@700;900&display=swap" rel="stylesheet">
     <style>
-        :root { 
-            --amber: #f1c40f;
-            --amber-dim: #b8860b;
-            --bg: #070705;
-        }
-
+        :root { --amber: #f1c40f; --amber-dim: #b8860b; --bg: #070705; }
         * { box-sizing: border-box; margin: 0; padding: 0; }
+        
         body, html { 
             height: 100%; width: 100%; background: radial-gradient(circle, #1a1a15 0%, var(--bg) 100%);
             color: #eee; font-family: 'Poppins', sans-serif; display: flex; justify-content: center; align-items: center; overflow: hidden; 
@@ -21,12 +17,12 @@
         .scene { display: none; width: 100%; height: 100%; flex-direction: column; justify-content: center; align-items: center; z-index: 10; }
         .active { display: flex; }
 
-        /* --- WELCOME: CENTERED TOTAL --- */
+        /* --- WELCOME: FIX CENTERED & GLITCH --- */
         #explode-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 5; }
-        .welcome-content { display: flex; flex-direction: column; align-items: center; width: 90%; max-width: 400px; }
+        .welcome-content { width: 90%; max-width: 400px; display: flex; flex-direction: column; align-items: center; }
 
-        .svg-wrapper { width: 100%; height: 100px; overflow: visible; margin-bottom: 20px; }
-        .text-layer { font-size: 45px; font-weight: 900; text-anchor: middle; dominant-baseline: middle; text-transform: uppercase; letter-spacing: 2px; }
+        .svg-box { width: 100%; height: 120px; overflow: visible; margin-bottom: 20px; }
+        .text-main { font-size: 48px; font-weight: 900; text-anchor: middle; dominant-baseline: middle; text-transform: uppercase; letter-spacing: 2px; }
         
         .layer-flow { fill: none; stroke: var(--amber); stroke-width: 2; stroke-dasharray: 200; stroke-dashoffset: 200; animation: flow 4s infinite linear; filter: drop-shadow(0 0 15px var(--amber)); }
         .layer-fill { fill: var(--amber); opacity: 0.1; animation: pulse 3s infinite ease-in-out; }
@@ -34,17 +30,16 @@
         @keyframes flow { to { stroke-dashoffset: 0; } }
         @keyframes pulse { 0%, 100% { opacity: 0.1; } 50% { opacity: 0.3; } }
 
-        /* --- UI COMPONENTS --- */
-        .btn-entry {
+        /* --- UI CARDS --- */
+        .card { 
+            width: 90%; max-width: 450px; background: rgba(20, 20, 18, 0.9); padding: 35px; 
+            border-radius: 35px; border: 1px solid rgba(241, 196, 15, 0.2); backdrop-filter: blur(20px); text-align: center;
+        }
+
+        .btn-gold {
             width: 100%; padding: 20px; border: none; border-radius: 15px; background: linear-gradient(135deg, var(--amber), var(--amber-dim));
             color: #000; font-weight: 900; font-size: 18px; cursor: pointer; text-transform: uppercase; letter-spacing: 1px;
-            box-shadow: 0 10px 30px rgba(184, 134, 11, 0.4); transition: 0.3s;
-        }
-        .btn-entry:active { transform: scale(0.96); }
-
-        .card { 
-            width: 90%; max-width: 450px; background: rgba(20, 20, 18, 0.85); padding: 35px; 
-            border-radius: 35px; border: 1px solid rgba(241, 196, 15, 0.2); backdrop-filter: blur(20px); text-align: center;
+            box-shadow: 0 10px 30px rgba(184, 134, 11, 0.4); transition: 0.3s; margin-top: 10px;
         }
 
         input { 
@@ -52,15 +47,15 @@
             border-radius: 15px; color: #fff; font-size: 16px; margin-bottom: 12px; outline: none;
         }
 
-        /* --- DASHBOARD ELEMENTS --- */
-        .target-img { width: 110px; height: 110px; border-radius: 50%; object-fit: cover; border: 3px solid var(--amber); margin-bottom: 15px; display: none; box-shadow: 0 0 20px rgba(241, 196, 15, 0.3); }
-        .circle-box { position: relative; width: 280px; height: 280px; margin: 15px auto; display: flex; justify-content: center; align-items: center; overflow: visible !important; }
+        /* --- DASHBOARD: NO CROP --- */
+        .target-img { width: 110px; height: 110px; border-radius: 50%; object-fit: cover; border: 3px solid var(--amber); margin: 0 auto 15px; display: none; }
+        .circle-container { position: relative; width: 280px; height: 280px; margin: 10px auto; display: flex; justify-content: center; align-items: center; overflow: visible !important; }
         svg.prog-svg { width: 100%; height: 100%; overflow: visible !important; transform: rotate(-90deg); }
         .circle-prog { fill: none; stroke: var(--amber); stroke-width: 20; stroke-linecap: round; stroke-dasharray: 565.48; stroke-dashoffset: 565.48; transition: 1s ease-out; }
-        .glow-100 .circle-prog { stroke-width: 26; filter: drop-shadow(0 0 30px var(--amber)); }
-        .percent-text { position: absolute; font-size: 55px; font-weight: 900; color: #fff; }
+        .glow-active .circle-prog { stroke-width: 26; filter: drop-shadow(0 0 35px var(--amber)); }
+        .percent-val { position: absolute; font-size: 55px; font-weight: 900; color: #fff; }
 
-        .exploding .welcome-content { opacity: 0; transition: 0.2s; }
+        .exploding .welcome-content { opacity: 0; transition: 0.2s; pointer-events: none; }
     </style>
 </head>
 <body>
@@ -70,128 +65,123 @@
     <div id="scene0" class="scene active">
         <canvas id="explode-canvas"></canvas>
         <div class="welcome-content">
-            <div class="svg-wrapper">
-                <svg viewBox="0 0 400 100" style="overflow:visible">
-                    <text x="50%" y="50%" class="text-layer" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="1">NabungYUK!</text>
-                    <text x="50%" y="50%" class="text-layer layer-fill">NabungYUK!</text>
-                    <text x="50%" y="50%" class="text-layer layer-flow">NabungYUK!</text>
+            <div class="svg-box">
+                <svg viewBox="0 0 400 120" style="overflow:visible">
+                    <text x="50%" y="50%" class="text-main" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="1">NabungYUK!</text>
+                    <text x="50%" y="50%" class="text-main layer-fill">NabungYUK!</text>
+                    <text x="50%" y="50%" class="text-main layer-flow">NabungYUK!</text>
                 </svg>
             </div>
-            <button class="btn-entry" onclick="triggerExplosion()">MASUK</button>
+            <button class="btn-gold" onclick="doExplode()">MASUK</button>
         </div>
     </div>
 
     <div id="scene1" class="scene">
         <div class="card">
-            <h2 style="color:var(--amber); margin-bottom:20px;">SET TARGET</h2>
-            <input type="number" id="setNominal" placeholder="Nominal Target (Rp)">
-            <input type="file" id="setFoto" accept="image/*" style="border:none; background:none; font-size:12px; color:#666;">
-            <button class="btn-entry" onclick="saveInitialData()">MULAI NABUNG</button>
+            <h2 style="color:var(--amber); margin-bottom:20px;">TARGET BARU</h2>
+            <input type="number" id="inNominal" placeholder="Target Rp">
+            <div style="text-align:left; margin-bottom:15px;">
+                <label style="font-size:10px; color:var(--amber); margin-left:5px;">FOTO BARANG (KAMERA/FILE):</label>
+                <input type="file" id="inFoto" accept="image/*" capture="environment" style="border:none; background:none; font-size:12px; color:#666;">
+            </div>
+            <button class="btn-gold" onclick="initApp()">MULAI</button>
         </div>
     </div>
 
     <div id="scene2" class="scene">
         <div class="card">
-            <img id="viewImg" class="target-img">
-            <div class="circle-box" id="glowArea">
+            <img id="displayImg" class="target-img">
+            <div class="circle-container" id="glowZone">
                 <svg viewBox="0 0 200 200" class="prog-svg">
                     <circle cx="100" cy="100" r="90" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="20"></circle>
-                    <circle id="progBar" cx="100" cy="100" r="90" class="circle-prog"></circle>
+                    <circle id="progCircle" cx="100" cy="100" r="90" class="circle-prog"></circle>
                 </svg>
-                <div class="percent-text"><span id="txtPersen">0</span>%</div>
+                <div class="percent-val"><span id="valPersen">0</span>%</div>
             </div>
-            <h3 id="txtTerkumpul" style="color:var(--amber); font-size:30px; margin:10px 0;">Rp 0</h3>
-            <p id="txtTargetVal" style="font-size:12px; color:#555; margin-bottom:15px;">Target: Rp 0</p>
-            <input type="number" id="addMoney" placeholder="Setor (Rp)">
-            <button class="btn-entry" onclick="updateSaldo()">SETOR SEKARANG</button>
-            <button onclick="hardReset()" style="background:none; border:none; color:#333; margin-top:25px; cursor:pointer; font-size:10px; text-decoration:underline;">RESET SEMUA DATA</button>
+            <h3 id="valSaved" style="color:var(--amber); font-size:32px; margin:10px 0;">Rp 0</h3>
+            <p id="valTarget" style="font-size:12px; color:#444; margin-bottom:15px;">Target: Rp 0</p>
+            <input type="number" id="addVal" placeholder="Setor Rp">
+            <button class="btn-gold" onclick="addMoney()">SETOR</button>
+            <button onclick="fullReset()" style="background:none; border:none; color:#222; margin-top:25px; cursor:pointer; font-size:10px; text-decoration:underline;">HAPUS SEMUA DATA</button>
         </div>
     </div>
 
     <script>
-        const KEY = 'NabungYuk_MASTER_STABLE';
-        let data = JSON.parse(localStorage.getItem(KEY)) || { target: 0, saved: 0, img: '' };
+        const DB_KEY = 'NabungYuk_ULTIMATE_STABLE';
+        let store = JSON.parse(localStorage.getItem(DB_KEY)) || { target: 0, saved: 0, img: '' };
 
-        function save() { localStorage.setItem(KEY, JSON.stringify(data)); }
+        function updateDB() { try { localStorage.setItem(DB_KEY, JSON.stringify(store)); } catch(e) { alert("Memori penuh Boss! Hapus beberapa foto."); } }
 
-        const exCanvas = document.getElementById('explode-canvas');
-        const exCtx = exCanvas.getContext('2d');
+        const c = document.getElementById('explode-canvas');
+        const ctx = c.getContext('2d');
         let parts = [];
 
-        function resize() { exCanvas.width = window.innerWidth; exCanvas.height = window.innerHeight; }
+        function resize() { c.width = window.innerWidth; c.height = window.innerHeight; }
         window.onresize = resize; resize();
 
-        function triggerExplosion() {
+        function doExplode() {
             document.getElementById('scene0').classList.add('exploding');
-            const rect = document.querySelector('.svg-wrapper').getBoundingClientRect();
+            const r = document.querySelector('.svg-box').getBoundingClientRect();
             for(let i=0; i<180; i++) {
                 parts.push({
-                    x: rect.left + rect.width/2, y: rect.top + rect.height/2,
-                    size: Math.random()*12+4,
-                    vX: (Math.random()-0.5)*30, vY: (Math.random()-0.8)*30,
-                    color: ['#f1c40f', '#fff', '#b8860b'][Math.floor(Math.random()*3)],
+                    x: r.left + r.width/2, y: r.top + r.height/2,
+                    s: Math.random()*12+4,
+                    vx: (Math.random()-0.5)*30, vy: (Math.random()-0.8)*30,
+                    c: ['#f1c40f', '#fff', '#b8860b'][Math.floor(Math.random()*3)],
                     a: 1
                 });
             }
-            drawExplosion();
-            setTimeout(() => {
-                if(data.target > 0) { renderDash(); goTo('scene2'); } else { goTo('scene1'); }
-            }, 1100);
+            (function anim(){
+                ctx.clearRect(0,0,c.width,c.height);
+                parts.forEach((p, i) => {
+                    p.x+=p.vx; p.y+=p.vy; p.vy+=0.5; p.a-=0.02;
+                    ctx.globalAlpha=p.a; ctx.fillStyle=p.c;
+                    ctx.fillRect(p.x, p.y, p.s, p.s);
+                    if(p.a<=0) parts.splice(i,1);
+                });
+                if(parts.length>0) requestAnimationFrame(anim);
+            })();
+            setTimeout(() => { if(store.target > 0) { refreshUI(); switchScene('scene2'); } else { switchScene('scene1'); } }, 1100);
         }
 
-        function drawExplosion() {
-            exCtx.clearRect(0,0,exCanvas.width,exCanvas.height);
-            parts.forEach((p, i) => {
-                p.x += p.vX; p.y += p.vY; p.vY += 0.5; p.a -= 0.02;
-                exCtx.globalAlpha = p.a; exCtx.fillStyle = p.color;
-                exCtx.fillRect(p.x, p.y, p.size, p.size);
-                if(p.a <= 0) parts.splice(i, 1);
-            });
-            if(parts.length > 0) requestAnimationFrame(drawExplosion);
-        }
-
-        function saveInitialData() {
-            const v = document.getElementById('setNominal').value;
-            const f = document.getElementById('setFoto').files[0];
-            if(!v || v <= 0) return alert("Isi nominal target!");
-            data.target = Number(v);
+        function initApp() {
+            const v = document.getElementById('inNominal').value;
+            const f = document.getElementById('inFoto').files[0];
+            if(!v || v <= 0) return alert("Target wajib diisi!");
+            store.target = Number(v);
             if(f) {
-                const r = new FileReader();
-                r.onload = (e) => { data.img = e.target.result; finishSetup(); };
-                r.readAsDataURL(f);
-            } else { finishSetup(); }
+                const reader = new FileReader();
+                reader.onload = (e) => { store.img = e.target.result; finishInit(); };
+                reader.readAsDataURL(f);
+            } else { finishInit(); }
         }
 
-        function finishSetup() { save(); renderDash(); goTo('scene2'); }
+        function finishInit() { updateDB(); refreshUI(); switchScene('scene2'); }
 
-        function renderDash() {
-            const f = new Intl.NumberFormat('id-ID');
-            const p = Math.min((data.saved / data.target) * 100, 100);
-            document.getElementById('txtPersen').innerText = Math.floor(p);
-            document.getElementById('txtTerkumpul').innerText = "Rp " + f.format(data.saved);
-            document.getElementById('txtTargetVal').innerText = "Target: Rp " + f.format(data.target);
-            document.getElementById('progBar').style.strokeDashoffset = 565.48 - (p/100 * 565.48);
-            
-            if(data.img) {
-                const el = document.getElementById('viewImg');
-                el.src = data.img; el.style.display = 'block';
-            }
-            if(p >= 100) document.getElementById('glowArea').classList.add('glow-100');
+        function refreshUI() {
+            const fmt = new Intl.NumberFormat('id-ID');
+            const p = Math.min((store.saved / store.target) * 100, 100);
+            document.getElementById('valPersen').innerText = Math.floor(p);
+            document.getElementById('valSaved').innerText = "Rp " + fmt.format(store.saved);
+            document.getElementById('valTarget').innerText = "Target: Rp " + fmt.format(store.target);
+            document.getElementById('progCircle').style.strokeDashoffset = 565.48 - (p/100 * 565.48);
+            if(store.img) { const el = document.getElementById('displayImg'); el.src = store.img; el.style.display = 'block'; }
+            if(p >= 100) document.getElementById('glowZone').classList.add('glow-active');
         }
 
-        function updateSaldo() {
-            const v = Number(document.getElementById('addMoney').value);
+        function addMoney() {
+            const v = Number(document.getElementById('addVal').value);
             if(v <= 0) return;
-            data.saved += v; save(); renderDash();
-            document.getElementById('addMoney').value = '';
+            store.saved += v; updateDB(); refreshUI();
+            document.getElementById('addVal').value = '';
         }
 
-        function goTo(id) {
+        function switchScene(id) {
             document.querySelectorAll('.scene').forEach(s => s.classList.remove('active'));
             document.getElementById(id).classList.add('active');
         }
 
-        function hardReset() { if(confirm("Data bakal ilang semua Jih! Yakin?")) { localStorage.clear(); location.reload(); } }
+        function fullReset() { if(confirm("Data ilang permanen ya Jih!")) { localStorage.clear(); location.reload(); } }
     </script>
 </body>
 </html>

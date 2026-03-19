@@ -3,120 +3,105 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NabungYUK! - Cyber Glass Multi-Color</title>
+    <title>NabungYUK! - Dark Amber Edition</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
         :root { 
-            /* Palet Satu Tema (Neon Cyber) */
-            --neon-pink: #ff00c1;
-            --neon-cyan: #00fff9;
-            --neon-green: #2ecc71; 
-            --neon-purple: #a55eea;
-            --neon-gold: #f1c40f;
-            --glass-bg: rgba(255, 255, 255, 0.03);
-            --glass-border: rgba(255, 255, 255, 0.1);
+            /* Palet Kuning Emas Gelap (Amber) */
+            --amber-bright: #f1c40f;
+            --amber-dark: #b8860b;
+            --bg-deep: #0a0a08;
+            --card-bg: rgba(20, 20, 18, 0.6);
+            --border: rgba(241, 196, 15, 0.15);
         }
 
         * { box-sizing: border-box; }
-
         body, html { 
             height: 100%; margin: 0; 
-            background: radial-gradient(circle at center, #1a1a2e 0%, #0a0a12 100%);
-            color: white; font-family: 'Poppins', sans-serif; 
+            background: radial-gradient(circle at center, #1a1a15 0%, var(--bg-deep) 100%);
+            color: #eee; font-family: 'Poppins', sans-serif; 
             display: flex; justify-content: center; align-items: center; 
             overflow: hidden; 
         }
 
-        /* --- BACKGROUND VIBE --- */
-        body::before {
-            content: ''; position: absolute; width: 100%; height: 100%;
-            background: url('https://www.transparenttextures.com/patterns/carbon-fibre.png');
-            opacity: 0.1; pointer-events: none;
-        }
-
-        /* --- SHARED THEME: GLASS CARD --- */
+        /* --- THEME: AMBER GLASS --- */
         .card { 
-            width: 100%; max-width: 460px; 
-            background: var(--glass-bg); 
-            padding: 40px; border-radius: 30px; 
-            border: 1px solid var(--glass-border); 
-            backdrop-filter: blur(20px); 
-            box-shadow: 0 25px 50px rgba(0,0,0,0.5);
+            width: 100%; max-width: 450px; 
+            background: var(--card-bg); 
+            padding: 40px; border-radius: 35px; 
+            border: 1px solid var(--border); 
+            backdrop-filter: blur(25px); 
+            box-shadow: 0 30px 60px rgba(0,0,0,0.8), 0 0 20px rgba(184, 134, 11, 0.05);
             text-align: center;
-            position: relative;
         }
 
         .scene { display: none; width: 100%; height: 100%; flex-direction: column; justify-content: center; align-items: center; padding: 20px; }
         .active { display: flex; }
 
-        /* --- WELCOME: PINK-CYAN VIBE --- */
-        .glitch-wrapper { font-size: clamp(40px, 10vw, 70px); font-weight: 900; position: relative; letter-spacing: 8px; margin-bottom: 50px; }
+        /* --- WELCOME: AMBER GLITCH --- */
+        .glitch-wrapper { font-size: clamp(40px, 10vw, 70px); font-weight: 900; position: relative; letter-spacing: 10px; margin-bottom: 50px; color: var(--amber-bright); text-shadow: 0 0 10px rgba(241, 196, 15, 0.3); }
         .glitch-text::before, .glitch-text::after { content: "NabungYUK!"; position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
-        .glitch-text::before { left: 3px; text-shadow: -2px 0 var(--neon-pink); clip: rect(44px, 450px, 56px, 0); animation: g-1 0.6s infinite linear alternate-reverse; }
-        .glitch-text::after { left: -3px; text-shadow: 2px 0 var(--neon-cyan); clip: rect(44px, 450px, 56px, 0); animation: g-2 0.6s infinite linear alternate-reverse; }
-        @keyframes g-1 { 0% { clip: rect(10px, 9999px, 85px, 0); } 100% { clip: rect(80px, 9999px, 20px, 0); } }
-        @keyframes g-2 { 0% { clip: rect(70px, 9999px, 30px, 0); } 100% { clip: rect(15px, 9999px, 90px, 0); } }
+        /* Glitch main di kuning terang & putih */
+        .glitch-text::before { left: 3px; text-shadow: -2px 0 #fff; clip: rect(44px, 450px, 56px, 0); animation: g-1 0.8s infinite linear alternate-reverse; }
+        .glitch-text::after { left: -3px; text-shadow: 2px 0 var(--amber-dark); clip: rect(44px, 450px, 56px, 0); animation: g-2 0.8s infinite linear alternate-reverse; }
+        @keyframes g-1 { 0% { clip: rect(20px, 9999px, 90px, 0); } 100% { clip: rect(70px, 9999px, 30px, 0); } }
+        @keyframes g-2 { 0% { clip: rect(10px, 9999px, 80px, 0); } 100% { clip: rect(60px, 9999px, 15px, 0); } }
 
         .shake-agresif { animation: shake 0.1s infinite; }
         @keyframes shake {
             0% { transform: translate(0,0); }
-            50% { transform: translate(10px, -10px); }
-            100% { transform: translate(-10px, 10px); }
+            50% { transform: translate(12px, -12px); }
+            100% { transform: translate(-12px, 12px); }
         }
 
-        /* --- SETUP: GREEN VIBE --- */
-        #scene1 h2 { color: var(--neon-green); text-shadow: 0 0 15px rgba(46, 204, 113, 0.4); }
-        #scene1 .btn-action { background: var(--neon-green); box-shadow: 0 0 20px rgba(46, 204, 113, 0.3); color: #000; }
-
-        /* --- DASHBOARD: PURPLE-GOLD VIBE --- */
-        #scene2 h2 { color: var(--neon-purple); text-shadow: 0 0 15px rgba(165, 94, 234, 0.4); }
-        #scene2 .btn-action { background: var(--neon-gold); box-shadow: 0 0 20px rgba(241, 196, 15, 0.3); color: #000; }
-
-        /* --- UI ELEMENTS (UNIFIED) --- */
-        label { display: block; text-align: left; font-size: 11px; color: #888; margin: 15px 0 5px 5px; text-transform: uppercase; letter-spacing: 1px; }
+        /* --- UI ELEMENTS (AMBER THEME) --- */
+        h2 { text-transform: uppercase; letter-spacing: 3px; font-weight: 800; color: var(--amber-bright); margin-bottom: 25px; }
+        label { display: block; text-align: left; font-size: 11px; color: #666; margin: 15px 0 5px 8px; text-transform: uppercase; letter-spacing: 2px; }
         input { 
-            width: 100%; padding: 16px; background: rgba(0,0,0,0.4); 
-            border: 1px solid var(--glass-border); border-radius: 12px; 
-            color: white; font-size: 16px; transition: 0.3s;
+            width: 100%; padding: 18px; background: rgba(0,0,0,0.6); 
+            border: 1px solid var(--border); border-radius: 15px; 
+            color: white; font-size: 18px; transition: 0.3s;
         }
-        input:focus { outline: none; border-color: white; box-shadow: 0 0 15px rgba(255,255,255,0.1); }
+        input:focus { outline: none; border-color: var(--amber-bright); box-shadow: 0 0 15px rgba(241, 196, 15, 0.2); }
         
         .btn-action { 
-            width: 100%; padding: 18px; border: none; border-radius: 12px; 
-            font-weight: 800; cursor: pointer; text-transform: uppercase; 
-            margin-top: 25px; transition: 0.3s;
+            width: 100%; padding: 20px; border: none; border-radius: 15px; 
+            font-weight: 900; cursor: pointer; text-transform: uppercase; 
+            margin-top: 30px; transition: 0.3s; letter-spacing: 1px;
+            background: linear-gradient(135deg, var(--amber-bright) 0%, var(--amber-dark) 100%);
+            color: #000; box-shadow: 0 10px 25px rgba(184, 134, 11, 0.3);
         }
-        .btn-action:hover { transform: translateY(-3px); filter: brightness(1.1); }
+        .btn-action:hover { transform: translateY(-3px); filter: brightness(1.2); }
 
-        /* --- PROGRESS SYSTEM (FIX GLOW BOCOR) --- */
+        /* --- PROGRESS SYSTEM (DARK GOLD) --- */
         .circle-box { 
-            position: relative; width: 280px; height: 280px; 
+            position: relative; width: 300px; height: 300px; 
             margin: 20px auto; display: flex; justify-content: center; align-items: center;
             overflow: visible !important; 
         }
-        svg { width: 260px; height: 260px; transform: rotate(-90deg); overflow: visible !important; }
-        .circle-bg { fill: none; stroke: rgba(255,255,255,0.05); stroke-width: 18; }
+        svg { width: 280px; height: 280px; transform: rotate(-90deg); overflow: visible !important; }
+        .circle-bg { fill: none; stroke: rgba(255,255,255,0.03); stroke-width: 20; }
         .circle-prog { 
-            fill: none; stroke: var(--neon-cyan); stroke-width: 18; 
+            fill: none; stroke: var(--amber-bright); stroke-width: 20; 
             stroke-linecap: round; stroke-dasharray: 565.48; stroke-dashoffset: 565.48; 
-            transition: 1s ease-out; filter: drop-shadow(0 0 8px var(--neon-cyan));
+            transition: 1s ease-out; filter: drop-shadow(0 0 10px rgba(241, 196, 15, 0.4));
         }
         
-        /* 100% MODE: GOLD THEME JIH! */
+        /* 100% MODE: TEBEL & GAK BOCOR */
         .glow-100 .circle-prog { 
-            stroke: var(--neon-gold); stroke-width: 22;
-            filter: drop-shadow(0 0 15px var(--neon-gold)) drop-shadow(0 0 40px var(--neon-gold));
+            stroke-width: 26;
+            filter: drop-shadow(0 0 20px var(--amber-bright)) drop-shadow(0 0 50px var(--amber-dark));
         }
-        .percent-text { position: absolute; font-size: 50px; font-weight: 900; }
+        .percent-text { position: absolute; font-size: 60px; font-weight: 900; color: #fff; text-shadow: 0 0 20px rgba(241, 196, 15, 0.5); }
 
         .target-img { 
-            width: 110px; height: 110px; border-radius: 50%; object-fit: cover; 
-            border: 3px solid var(--neon-purple); margin: 0 auto 15px; display: none;
-            box-shadow: 0 0 15px rgba(165, 94, 234, 0.3);
+            width: 120px; height: 120px; border-radius: 50%; object-fit: cover; 
+            border: 3px solid var(--amber-bright); margin: 0 auto 20px; display: none;
+            box-shadow: 0 0 25px rgba(184, 134, 11, 0.3);
         }
 
         .reset-link { 
-            background: none; border: none; color: #444; margin-top: 25px; 
+            background: none; border: none; color: #333; margin-top: 30px; 
             cursor: pointer; font-size: 10px; text-decoration: underline; text-transform: uppercase;
         }
     </style>
@@ -128,19 +113,20 @@
     <div id="scene0" class="scene active">
         <div id="welcomeContent">
             <div class="glitch-wrapper"><div class="glitch-text">NabungYUK!</div></div>
-            <button class="btn-action" style="background: linear-gradient(90deg, var(--neon-pink), var(--neon-cyan));" onclick="startApp()">Masuk Protokol</button>
+            <p style="color: #443; letter-spacing: 5px; font-size: 10px; margin-top: -30px; margin-bottom: 40px;">PREMIUM SAVING PROTOCOL</p>
+            <button class="btn-action" style="width: auto; padding: 18px 60px;" onclick="startApp()">MASUK</button>
         </div>
     </div>
 
     <div id="scene1" class="scene">
         <div class="card">
-            <h2>Mulai Target</h2>
+            <h2>Target Misi</h2>
             <div style="text-align: left;">
                 <label>Nominal Target (Rp)</label>
-                <input type="number" id="setNominal" placeholder="Misal: 5000000">
-                <label>Visual Barang (Opsional)</label>
-                <input type="file" id="setFoto" accept="image/*">
-                <button class="btn-action" onclick="saveInitialTarget()">Kunci Misi</button>
+                <input type="number" id="setNominal" placeholder="Contoh: 10000000">
+                <label>Foto Barang (Opsional)</label>
+                <input type="file" id="setFoto" accept="image/*" style="font-size: 12px; border: none; background: none; padding: 0; color: #666;">
+                <button class="btn-action" onclick="saveInitialTarget()">Lock Target</button>
             </div>
         </div>
     </div>
@@ -148,7 +134,7 @@
     <div id="scene2" class="scene">
         <div class="card">
             <img id="viewImg" class="target-img">
-            <h2 id="viewTitle">DASHBOARD</h2>
+            <h2 id="viewTitle" style="font-size: 16px; color: #666;">Progres Tabungan</h2>
             
             <div class="circle-box" id="glowArea">
                 <svg viewBox="0 0 200 200">
@@ -158,29 +144,29 @@
                 <div class="percent-text"><span id="txtPersen">0</span>%</div>
             </div>
 
-            <div style="background: rgba(0,0,0,0.3); padding: 15px; border-radius: 20px; border: 1px solid var(--glass-border);">
-                <span style="font-size: 11px; color: var(--neon-purple); font-weight: 700;">SALDO SAAT INI</span>
-                <div id="txtTerkumpul" style="font-size: 28px; font-weight: 900; color: var(--neon-green);">Rp 0</div>
-                <div style="font-size: 10px; color: #666; margin-top: 5px;">TARGET: <span id="txtTarget" style="color:#aaa;">Rp 0</span></div>
+            <div style="background: rgba(0,0,0,0.4); padding: 20px; border-radius: 25px; border: 1px solid var(--border); margin-bottom: 10px;">
+                <span style="font-size: 10px; color: var(--amber-dark); font-weight: 700; letter-spacing: 1px;">TOTAL TERKUMPUL</span>
+                <div id="txtTerkumpul" style="font-size: 32px; font-weight: 900; color: var(--amber-bright); margin: 5px 0;">Rp 0</div>
+                <div style="font-size: 10px; color: #444;">TARGET: <span id="txtTarget">Rp 0</span></div>
             </div>
 
             <div style="text-align: left;">
                 <label>Isi Celengan (Rp)</label>
                 <input type="number" id="addMoney" placeholder="Setor hari ini">
-                <button class="btn-action" onclick="addSaving()">Tambah Saldo</button>
+                <button class="btn-action" onclick="addSaving()">Setor Duit</button>
             </div>
-            <button onclick="hardReset()" class="reset-link">Reset Sistem</button>
+            <button onclick="hardReset()" class="reset-link">Reset Database</button>
         </div>
     </div>
 
     <script>
         // DATA CENTRALIZATION (ANTI-ILANG)
-        let appData = JSON.parse(localStorage.getItem('NabungYuk_Final_Data')) || {
+        let appData = JSON.parse(localStorage.getItem('NabungYuk_Amber_Data')) || {
             target: 0, saved: 0, image: ''
         };
 
         const f = new Intl.NumberFormat('id-ID');
-        function updateStorage() { localStorage.setItem('NabungYuk_Final_Data', JSON.stringify(appData)); }
+        function updateStorage() { localStorage.setItem('NabungYuk_Amber_Data', JSON.stringify(appData)); }
 
         function startApp() {
             const welcome = document.getElementById('welcomeContent');
@@ -195,7 +181,7 @@
         function saveInitialTarget() {
             const nom = document.getElementById('setNominal').value;
             const file = document.getElementById('setFoto').files[0];
-            if (!nom || nom <= 0) return alert("Isi target dulu Boss!");
+            if (!nom || nom <= 0) return alert("Nominal target harus diisi!");
             appData.target = Number(nom);
             if (file) {
                 const reader = new FileReader();
@@ -232,7 +218,7 @@
         function addSaving() {
             const input = document.getElementById('addMoney');
             const val = Number(input.value);
-            if (val <= 0) return alert("Masukkan nominal yang bener Jih!");
+            if (val <= 0) return alert("Isi nominalnya dulu Jih!");
             appData.saved += val;
             updateStorage(); renderDashboard();
             input.value = "";
@@ -244,12 +230,12 @@
         }
 
         function hardReset() {
-            if (confirm("Data bakal kehapus semua. Yakin?")) {
+            if (confirm("Hapus semua data tabungan?")) {
                 localStorage.clear(); location.reload();
             }
         }
 
-        // CONFETTI SYSTEM
+        // CONFETTI EMAS JIH
         const canvas = document.getElementById('confetti-canvas');
         const ctx = canvas.getContext('2d');
         let confetti = [];
@@ -257,8 +243,8 @@
             canvas.width = window.innerWidth; canvas.height = window.innerHeight;
             for(let i=0; i<100; i++) confetti.push({
                 x: Math.random()*canvas.width, y: Math.random()*canvas.height - canvas.height,
-                size: Math.random()*10+5, color: ['#f1c40f','#fff','#e67e22'][Math.floor(Math.random()*3)],
-                vel: Math.random()*5+2
+                size: Math.random()*8+4, color: ['#f1c40f','#b8860b','#fff'][Math.floor(Math.random()*3)],
+                vel: Math.random()*4+3
             });
             drawConfetti();
         }

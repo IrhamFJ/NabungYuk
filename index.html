@@ -2,178 +2,267 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NabungYUK! - Master Gold Stable</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700;900&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>NabungYUK!</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
     <style>
         :root { 
-            --amber: #f1c40f; 
-            --amber-dim: #b8860b; 
-            --bg: #0a0a08;
+            --gold: #f8cc3d; 
+            --gold-glow: rgba(248, 204, 61, 0.3);
+            --bg-dark: #0a0a0a;
+            --panel: rgba(30, 30, 28, 0.8);
+            --text-main: #ffffff;
+            --text-dim: #94a3b8;
+            --red: #ff5f5f;
+            --green: #4ade80;
+            --transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; }
+        * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
         
-        body, html { 
-            height: 100%; width: 100%; background: radial-gradient(circle, #1a1a15 0%, var(--bg) 100%);
-            color: #eee; font-family: 'Poppins', sans-serif; display: flex; justify-content: center; align-items: center; overflow: hidden; 
+        body { 
+            height: 100dvh; width: 100%; background: var(--bg-dark);
+            color: var(--text-main); font-family: 'Plus Jakarta Sans', sans-serif; 
+            display: flex; justify-content: center; align-items: center; overflow: hidden; 
         }
 
-        .scene { display: none; width: 100%; height: 100%; flex-direction: column; justify-content: center; align-items: center; z-index: 10; padding: 20px; }
-        .active { display: flex; }
+        body::before {
+            content: ''; position: absolute; top: -10%; left: -10%; width: 50%; height: 50%;
+            background: radial-gradient(circle, var(--gold-glow) 0%, transparent 70%);
+            filter: blur(100px); z-index: 1; opacity: 0.4;
+        }
 
-        /* --- WELCOME: FIX CENTERED TOTAL --- */
-        .welcome-wrapper { width: 100%; max-width: 400px; text-align: center; }
-        .svg-title { width: 100%; height: 120px; overflow: visible; }
-        .text-main { font-size: 52px; font-weight: 900; text-anchor: middle; dominant-baseline: middle; text-transform: uppercase; letter-spacing: 4px; }
-        .layer-flow { fill: none; stroke: var(--amber); stroke-width: 2; stroke-dasharray: 200; stroke-dashoffset: 200; animation: flow 4s infinite linear; filter: drop-shadow(0 0 15px var(--amber)); }
-        @keyframes flow { to { stroke-dashoffset: 0; } }
+        .scene { 
+            display: none; width: 100%; height: 100%; flex-direction: column; 
+            justify-content: center; align-items: center; z-index: 10; padding: 20px; 
+            opacity: 0; transform: scale(0.98); transition: var(--transition);
+        }
+        .active { display: flex; opacity: 1; transform: scale(1); }
 
-        /* --- CARD SYSTEM --- */
         .card { 
-            width: 100%; max-width: 420px; background: rgba(20, 20, 18, 0.85); padding: 35px; 
-            border-radius: 40px; border: 1px solid rgba(241, 196, 15, 0.2); backdrop-filter: blur(20px); text-align: center;
+            width: 100%; max-width: 400px; background: var(--panel); padding: 40px 25px; 
+            border-radius: 40px; border: 1px solid rgba(255, 255, 255, 0.05); 
+            backdrop-filter: blur(25px); text-align: center;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6);
+            position: relative; 
         }
 
-        .btn-gold { 
-            width: 100%; padding: 20px; border: none; border-radius: 18px; 
-            background: linear-gradient(135deg, var(--amber), var(--amber-dim)); color: #000; font-weight: 900; 
-            font-size: 16px; text-transform: uppercase; cursor: pointer; transition: 0.3s; margin-top: 15px;
+        .logo-text { font-weight: 800; font-size: 36px; letter-spacing: -1px; margin-bottom: 5px; }
+        .logo-text span { color: var(--gold); text-shadow: 0 0 20px var(--gold-glow); }
+
+        .circle-box { position: relative; width: 240px; height: 240px; margin: 20px auto; display: flex; justify-content: center; align-items: center; }
+        svg.prog-svg { width: 100%; height: 100%; transform: rotate(-90deg); overflow: visible; }
+        .circle-bg { fill: none; stroke: rgba(255, 255, 255, 0.03); stroke-width: 15; }
+        .circle-prog { 
+            fill: none; stroke: var(--gold); stroke-width: 15; stroke-linecap: round; 
+            stroke-dasharray: 565.48; stroke-dashoffset: 565.48; transition: stroke-dashoffset 1.2s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
-        .btn-gold:active { transform: scale(0.96); }
 
-        input { width: 100%; padding: 18px; background: rgba(0,0,0,0.6); border: 1px solid rgba(241, 196, 15, 0.2); border-radius: 15px; color: #fff; font-size: 16px; margin-bottom: 12px; outline: none; }
-
-        /* --- DASHBOARD JIH! (SESUAI SKETSA) --- */
-        .target-img { width: 110px; height: 110px; border-radius: 50%; object-fit: cover; border: 3px solid var(--amber); margin: 0 auto 15px; display: none; box-shadow: 0 0 20px var(--amber); }
-        
-        .circle-box { position: relative; width: 280px; height: 280px; margin: 10px auto; display: flex; justify-content: center; align-items: center; overflow: visible !important; }
-        svg.prog-svg { width: 100%; height: 100%; overflow: visible !important; transform: rotate(-90deg); }
-        .circle-bg { fill: none; stroke: rgba(255,255,255,0.03); stroke-width: 20; }
-        .circle-prog { fill: none; stroke: var(--amber); stroke-width: 20; stroke-linecap: round; stroke-dasharray: 565.48; stroke-dashoffset: 565.48; transition: 1.2s ease-out; }
-        .glow-active .circle-prog { stroke-width: 26; filter: drop-shadow(0 0 35px var(--amber)) drop-shadow(0 0 10px #fff); }
-        
         .percent-display { position: absolute; text-align: center; }
-        .percent-num { font-size: 55px; font-weight: 900; color: #fff; }
-        .percent-label { font-size: 10px; color: var(--amber-dim); text-transform: uppercase; letter-spacing: 2px; }
+        .percent-num { font-size: 54px; font-weight: 800; color: #fff; line-height: 1; }
+        .percent-num small { font-size: 22px; opacity: 0.5; vertical-align: super; }
 
-        .data-stack { margin-bottom: 25px; }
-        .data-saved { font-size: 34px; font-weight: 900; color: #ff6b6b; /* Red-ish like sketch */ text-shadow: 0 0 15px rgba(255, 107, 107, 0.3); }
-        .data-last { font-size: 12px; color: #51cf66; /* Green-ish like sketch */ font-weight: 700; }
-        .data-target { font-size: 10px; color: #555; text-transform: uppercase; }
+        .data-panel { margin: 25px 0; background: rgba(0,0,0,0.2); padding: 20px; border-radius: 25px; border: 1px solid rgba(255,255,255,0.02); }
+        .target-label { font-size: 10px; text-transform: uppercase; letter-spacing: 2.5px; color: var(--text-dim); margin-bottom: 6px; }
+        .saved-val { font-size: 34px; font-weight: 800; color: #fff; letter-spacing: -1px; }
+        .last-val { font-size: 13px; font-weight: 600; margin-top: 6px; display: flex; align-items: center; justify-content: center; gap: 6px; }
+
+        .input-box {
+            position: relative; display: flex; align-items: center; margin-bottom: 15px;
+            background: rgba(0,0,0,0.4); border-radius: 18px; border: 1px solid rgba(255,255,255,0.08);
+            transition: 0.3s;
+        }
+        .input-box:focus-within { border-color: var(--gold); background: rgba(248, 204, 61, 0.04); }
+        .input-box i { padding: 0 15px; color: var(--gold); font-size: 18px; }
+        input { width: 100%; padding: 18px 18px 18px 0; background: none; border: none; color: #fff; font-size: 16px; font-weight: 600; font-family: inherit; outline: none; }
+
+        .btn {
+            padding: 18px; border-radius: 18px; border: none; font-weight: 800; 
+            font-size: 14px; cursor: pointer; text-transform: uppercase; letter-spacing: 1.5px;
+            transition: var(--transition); display: flex; align-items: center; justify-content: center; gap: 10px;
+        }
+        .btn-gold { background: var(--gold); color: #000; box-shadow: 0 10px 25px -5px rgba(248, 204, 61, 0.4); }
+        .btn-gold:active { transform: scale(0.96); }
+        .btn-red { background: rgba(255, 95, 95, 0.1); color: var(--red); border: 1px solid rgba(255, 95, 95, 0.2); }
+
+        .img-target { width: 90px; height: 90px; border-radius: 50%; object-fit: cover; border: 3px solid var(--gold); margin: 0 auto 15px; display: none; }
+
+        #celeOverlay {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 1000;
+            display: none; flex-direction: column; justify-content: center; align-items: center;
+            backdrop-filter: blur(15px); opacity: 0; transition: 0.5s;
+        }
+        #celeOverlay.active { display: flex; opacity: 1; }
+
+        .btn-reset { margin-top: 25px; background: none; border: none; color: var(--text-dim); font-size: 10px; text-decoration: underline; cursor: pointer; opacity: 0.4; }
     </style>
 </head>
 <body>
 
+    <div id="celeOverlay">
+        <i class="fas fa-crown" style="font-size: 70px; color: var(--gold); margin-bottom: 20px; filter: drop-shadow(0 0 20px var(--gold));"></i>
+        <h2 style="font-size: 28px; text-align: center;">TARGET <span style="color:var(--gold)">TERCAPAI!</span></h2>
+        <p style="color: var(--green); margin-top: 10px; font-weight: 600;">Hebat Jih, barang impianmu sudah didepan mata!</p>
+    </div>
+
     <div id="scene0" class="scene active">
-        <div class="welcome-wrapper">
-            <div class="svg-title">
-                <svg viewBox="0 0 400 120" style="overflow:visible">
-                    <text x="50%" y="50%" class="text-main" fill="rgba(255,255,255,0.05)">NabungYUK!</text>
-                    <text x="50%" y="50%" class="text-main layer-flow">NabungYUK!</text>
-                </svg>
-            </div>
-            <button class="btn-gold" style="width:200px" onclick="gateCheck()">MASUK</button>
+        <div class="card">
+            <h1 class="logo-text">Nabung<span>YUK!</span></h1>
+            <p style="color:var(--text-dim); margin-bottom: 35px; font-size: 14px;">Simpan sekarang, nikmati kemudian.</p>
+            <button class="btn btn-gold" onclick="gateCheck()" style="width: 100%;">
+                MASUK BRANKAS <i class="fas fa-chevron-right"></i>
+            </button>
         </div>
     </div>
 
     <div id="scene1" class="scene">
         <div class="card">
-            <h2 style="color:var(--amber); margin-bottom:20px;">TARGET BARU</h2>
-            <input type="number" id="inNominal" placeholder="Nominal Target (Rp)">
-            <div style="text-align:left; margin-bottom:15px;">
-                <label style="font-size:10px; color:#555; margin-left:5px;">FOTO BARANG (KAMERA/FILE):</label>
-                <input type="file" id="inFoto" accept="image/*" capture="environment" style="border:none; background:none; font-size:11px; color:var(--amber-dim);">
+            <h2 style="margin-bottom: 30px; letter-spacing: -1px;">🎯 Barang <span style="color:var(--gold)">Impian</span></h2>
+            <div class="input-box">
+                <i class="fas fa-bullseye"></i>
+                <input type="number" id="inNominal" placeholder="Nominal Target (Rp)">
             </div>
-            <button class="btn-gold" onclick="initApp()">MULAI SEKARANG</button>
+            <div style="text-align: left; margin-bottom: 20px;">
+                <label style="font-size: 10px; color: var(--text-dim); margin-left: 5px; display: block; margin-bottom: 8px;">FOTO BARANG (OPTIONAL)</label>
+                <input type="file" id="inFoto" accept="image/*" capture="environment" style="font-size: 11px; color: var(--gold);">
+            </div>
+            <button class="btn btn-gold" onclick="initApp()" style="width: 100%;">MULAI NABUNG</button>
         </div>
     </div>
 
     <div id="scene2" class="scene">
         <div class="card">
-            <img id="displayImg" class="target-img">
+            <img id="displayImg" class="img-target">
             
-            <div class="data-stack">
-                <p class="data-target" id="txtTarget">SIMPAN: Rp 0</p>
-                <h3 class="data-saved" id="txtSaved">Rp 0</h3>
-                <p class="data-last" id="txtLast">+Rp 0 (Terakhir)</p>
+            <div class="data-panel">
+                <p class="target-label" id="txtTarget">Target: Rp 0</p>
+                <h3 class="saved-val" id="txtSaved">Rp 0</h3>
+                <p class="last-val" id="txtLast">Mulai menabung Jih!</p>
             </div>
 
-            <div class="circle-box" id="glowZone">
+            <div class="circle-box">
                 <svg viewBox="0 0 200 200" class="prog-svg">
                     <circle class="circle-bg" cx="100" cy="100" r="90"></circle>
                     <circle id="progCircle" class="circle-prog" cx="100" cy="100" r="90"></circle>
                 </svg>
                 <div class="percent-display">
-                    <div class="percent-num"><span id="valPersen">0</span>%</div>
-                    <div class="percent-label">Terkumpul</div>
+                    <div class="percent-num"><span id="valPersen">0</span><small>%</small></div>
                 </div>
             </div>
 
-            <input type="number" id="addVal" placeholder="Setor Saldo (Rp)">
-            <button class="btn-gold" onclick="addMoney()">SETOR</button>
-            <button onclick="fullReset()" style="background:none; border:none; color:#1a1a1a; margin-top:30px; cursor:pointer; font-size:10px; text-decoration:underline;">HAPUS DATA</button>
+            <div id="controlPanel">
+                <div class="input-box">
+                    <i class="fas fa-wallet"></i>
+                    <input type="number" id="addVal" placeholder="Nominal Rp...">
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+                    <button class="btn btn-gold" onclick="addMoney()">SETOR</button>
+                    <button class="btn btn-red" onclick="withdrawMoney()">TARIK</button>
+                </div>
+            </div>
+
+            <div id="finishPanel" style="display: none; margin-top: 15px;">
+                <p style="color: var(--green); font-weight: 800; margin-bottom: 15px;">LUNAS JIH! 🚀</p>
+                <button class="btn btn-gold" style="width: 100%;" onclick="fullReset()">BUAT TARGET BARU</button>
+            </div>
+
+            <button class="btn-reset" onclick="fullReset()">Reset & Hapus Data</button>
         </div>
     </div>
 
     <script>
-        const DB_KEY = 'NabungYuk_ULTRA_GOLD_STABLE';
-        let store = JSON.parse(localStorage.getItem(DB_KEY)) || { target: 0, saved: 0, last: 0, img: '' };
+        const KEY = 'NABUNGYUK_FINAL_STABLE';
+        const LEN = 565.48;
+        let store = JSON.parse(localStorage.getItem(KEY)) || { target: 0, saved: 0, last: 0, img: '', done: false };
 
         function gateCheck() {
-            if(store.target > 0) { renderUI(); switchScene('scene2'); } 
-            else { switchScene('scene1'); }
+            store.target > 0 ? (render(), move('scene2')) : move('scene1');
         }
 
         function initApp() {
-            const v = document.getElementById('inNominal').value;
-            const f = document.getElementById('inFoto').files[0];
-            if(!v || v <= 0) return alert("Target wajib diisi Jih!");
-            store.target = Number(v);
-            if(f) {
+            const val = document.getElementById('inNominal').value;
+            const file = document.getElementById('inFoto').files[0];
+            if(!val || val <= 0) return alert("Isi target nominal dulu Jih!");
+            
+            store = { target: Number(val), saved: 0, last: 0, img: '', done: false };
+            if(file) {
                 const reader = new FileReader();
-                reader.onload = (e) => { store.img = e.target.result; finishInit(); };
-                reader.readAsDataURL(f);
-            } else { finishInit(); }
+                reader.onload = (e) => { store.img = e.target.result; save(); render(); move('scene2'); };
+                reader.readAsDataURL(file);
+            } else { save(); render(); move('scene2'); }
         }
 
-        function finishInit() { localStorage.setItem(DB_KEY, JSON.stringify(store)); renderUI(); switchScene('scene2'); }
-
-        function renderUI() {
+        function render() {
             const fmt = new Intl.NumberFormat('id-ID');
             const p = Math.min((store.saved / store.target) * 100, 100);
             
             document.getElementById('valPersen').innerText = Math.floor(p);
             document.getElementById('txtSaved').innerText = "Rp " + fmt.format(store.saved);
-            document.getElementById('txtLast').innerText = "+Rp " + fmt.format(store.last) + " (Terakhir)";
-            document.getElementById('txtTarget').innerText = "SIMPAN: Rp " + fmt.format(store.target);
+            document.getElementById('txtTarget').innerText = "Target: Rp " + fmt.format(store.target);
             
-            // Progress Bar (Keliling = 565.48)
-            document.getElementById('progCircle').style.strokeDashoffset = 565.48 - (p/100 * 565.48);
+            // Last Transaction Color
+            const l = document.getElementById('txtLast');
+            if(store.last === 0) { l.style.color = 'var(--text-dim)'; l.innerHTML = 'Belum ada transaksi'; }
+            else if(store.last > 0) { l.style.color = 'var(--green)'; l.innerHTML = `<i class="fas fa-caret-up"></i> +Rp ${fmt.format(store.last)}`; }
+            else { l.style.color = 'var(--red)'; l.innerHTML = `<i class="fas fa-caret-down"></i> -Rp ${fmt.format(Math.abs(store.last))}`; }
+
+            // Progress
+            document.getElementById('progCircle').style.strokeDashoffset = LEN - (p/100 * LEN);
             
-            if(store.img) {
-                const el = document.getElementById('displayImg');
-                el.src = store.img; el.style.display = 'block';
+            // Image
+            if(store.img) { const i = document.getElementById('displayImg'); i.src = store.img; i.style.display = 'block'; }
+
+            // Goal State
+            if(p >= 100) {
+                document.getElementById('controlPanel').style.display = 'none';
+                document.getElementById('finishPanel').style.display = 'block';
+                document.getElementById('progCircle').style.stroke = 'var(--green)';
+                if(!store.done) { launchCele(); store.done = true; save(); }
+            } else {
+                document.getElementById('controlPanel').style.display = 'block';
+                document.getElementById('finishPanel').style.display = 'none';
+                document.getElementById('progCircle').style.stroke = 'var(--gold)';
+                store.done = false; save();
             }
-            if(p >= 100) document.getElementById('glowZone').classList.add('glow-active');
         }
 
         function addMoney() {
-            const v = Number(document.getElementById('addVal').value);
+            const el = document.getElementById('addVal');
+            const v = Number(el.value);
             if(v <= 0) return;
-            store.saved += v;
-            store.last = v;
-            localStorage.setItem(DB_KEY, JSON.stringify(store));
-            renderUI();
-            document.getElementById('addVal').value = '';
+            store.saved += v; store.last = v;
+            el.value = ''; el.blur();
+            save(); render();
         }
 
-        function switchScene(id) {
+        function withdrawMoney() {
+            const el = document.getElementById('addVal');
+            const v = Number(el.value);
+            if(v <= 0) return;
+            if(v > store.saved) return alert("Saldo ga cukup Jih!");
+            if(confirm(`Tarik Rp ${new Intl.NumberFormat('id-ID').format(v)}?`)) {
+                store.saved -= v; store.last = -v;
+                el.value = ''; el.blur();
+                save(); render();
+            }
+        }
+
+        function launchCele() {
+            const o = document.getElementById('celeOverlay');
+            o.style.display = 'flex';
+            setTimeout(() => o.classList.add('active'), 50);
+            setTimeout(() => { o.classList.remove('active'); setTimeout(()=>o.style.display='none', 500); }, 3500);
+        }
+
+        function save() { localStorage.setItem(KEY, JSON.stringify(store)); }
+        function move(id) {
             document.querySelectorAll('.scene').forEach(s => s.classList.remove('active'));
-            document.getElementById(id).classList.add('active');
+            setTimeout(() => document.getElementById(id).classList.add('active'), 50);
         }
-
-        function fullReset() { if(confirm("Data ilang permanen Jih!")) { localStorage.clear(); location.reload(); } }
+        function fullReset() { 
+            if(confirm("Hapus data & mulai target baru?")) { localStorage.removeItem(KEY); location.reload(); } 
+        }
     </script>
 </body>
 </html>

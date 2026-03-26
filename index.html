@@ -11,7 +11,7 @@
             --gold: #f8cc3d; 
             --gold-glow: rgba(248, 204, 61, 0.3);
             --bg-dark: #0a0a0a;
-            --panel: rgba(30, 30, 28, 0.8);
+            --panel: rgba(30, 30, 28, 0.85);
             --text-main: #ffffff;
             --text-dim: #94a3b8;
             --red: #ff5f5f;
@@ -42,8 +42,8 @@
 
         .card { 
             width: 100%; max-width: 400px; background: var(--panel); padding: 40px 25px; 
-            border-radius: 40px; border: 1px solid rgba(255, 255, 255, 0.05); 
-            backdrop-filter: blur(25px); text-align: center;
+            border-radius: 40px; border: 1px solid rgba(255, 255, 255, 0.08); 
+            backdrop-filter: blur(30px); text-align: center;
             box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6);
             position: relative; 
         }
@@ -51,7 +51,7 @@
         .logo-text { font-weight: 800; font-size: 36px; letter-spacing: -1px; margin-bottom: 5px; }
         .logo-text span { color: var(--gold); text-shadow: 0 0 20px var(--gold-glow); }
 
-        .circle-box { position: relative; width: 240px; height: 240px; margin: 20px auto; display: flex; justify-content: center; align-items: center; }
+        .circle-box { position: relative; width: 220px; height: 220px; margin: 20px auto; display: flex; justify-content: center; align-items: center; }
         svg.prog-svg { width: 100%; height: 100%; transform: rotate(-90deg); overflow: visible; }
         .circle-bg { fill: none; stroke: rgba(255, 255, 255, 0.03); stroke-width: 15; }
         .circle-prog { 
@@ -60,38 +60,38 @@
         }
 
         .percent-display { position: absolute; text-align: center; }
-        .percent-num { font-size: 54px; font-weight: 800; color: #fff; line-height: 1; }
-        .percent-num small { font-size: 22px; opacity: 0.5; vertical-align: super; }
+        .percent-num { font-size: 50px; font-weight: 800; color: #fff; line-height: 1; }
+        .percent-num small { font-size: 20px; opacity: 0.5; vertical-align: super; }
 
-        .data-panel { margin: 25px 0; background: rgba(0,0,0,0.2); padding: 20px; border-radius: 25px; border: 1px solid rgba(255,255,255,0.02); }
-        .target-label { font-size: 10px; text-transform: uppercase; letter-spacing: 2.5px; color: var(--text-dim); margin-bottom: 6px; }
-        .saved-val { font-size: 34px; font-weight: 800; color: #fff; letter-spacing: -1px; }
+        .data-panel { margin: 20px 0; background: rgba(0,0,0,0.25); padding: 18px; border-radius: 25px; border: 1px solid rgba(255,255,255,0.03); }
+        .target-label { font-size: 10px; text-transform: uppercase; letter-spacing: 2px; color: var(--text-dim); margin-bottom: 5px; }
+        .saved-val { font-size: 32px; font-weight: 800; color: #fff; letter-spacing: -1px; }
         .last-val { font-size: 13px; font-weight: 600; margin-top: 6px; display: flex; align-items: center; justify-content: center; gap: 6px; }
 
         .input-box {
-            position: relative; display: flex; align-items: center; margin-bottom: 15px;
-            background: rgba(0,0,0,0.4); border-radius: 18px; border: 1px solid rgba(255,255,255,0.08);
+            position: relative; display: flex; align-items: center; margin-bottom: 12px;
+            background: rgba(0,0,0,0.4); border-radius: 18px; border: 1px solid rgba(255,255,255,0.1);
             transition: 0.3s;
         }
-        .input-box:focus-within { border-color: var(--gold); background: rgba(248, 204, 61, 0.04); }
+        .input-box:focus-within { border-color: var(--gold); background: rgba(248, 204, 61, 0.05); }
         .input-box i { padding: 0 15px; color: var(--gold); font-size: 18px; }
-        input { width: 100%; padding: 18px 18px 18px 0; background: none; border: none; color: #fff; font-size: 16px; font-weight: 600; font-family: inherit; outline: none; }
+        input[type="number"] { width: 100%; padding: 16px 16px 16px 0; background: none; border: none; color: #fff; font-size: 16px; font-weight: 600; font-family: inherit; outline: none; }
 
         .btn {
-            padding: 18px; border-radius: 18px; border: none; font-weight: 800; 
+            padding: 16px; border-radius: 16px; border: none; font-weight: 800; 
             font-size: 14px; cursor: pointer; text-transform: uppercase; letter-spacing: 1.5px;
             transition: var(--transition); display: flex; align-items: center; justify-content: center; gap: 10px;
         }
-        .btn-gold { background: var(--gold); color: #000; box-shadow: 0 10px 25px -5px rgba(248, 204, 61, 0.4); }
+        .btn-gold { background: var(--gold); color: #000; box-shadow: 0 8px 20px -5px rgba(248, 204, 61, 0.4); }
         .btn-gold:active { transform: scale(0.96); }
         .btn-red { background: rgba(255, 95, 95, 0.1); color: var(--red); border: 1px solid rgba(255, 95, 95, 0.2); }
 
-        .img-target { width: 90px; height: 90px; border-radius: 50%; object-fit: cover; border: 3px solid var(--gold); margin: 0 auto 15px; display: none; }
+        .img-target { width: 85px; height: 85px; border-radius: 50%; object-fit: cover; border: 3px solid var(--gold); margin: 0 auto 12px; display: none; box-shadow: 0 0 15px var(--gold-glow); }
 
         #celeOverlay {
-            position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 1000;
+            position: fixed; inset: 0; background: rgba(0,0,0,0.96); z-index: 1000;
             display: none; flex-direction: column; justify-content: center; align-items: center;
-            backdrop-filter: blur(15px); opacity: 0; transition: 0.5s;
+            backdrop-filter: blur(15px); opacity: 0; transition: 0.6s;
         }
         #celeOverlay.active { display: flex; opacity: 1; }
 
@@ -103,7 +103,7 @@
     <div id="celeOverlay">
         <i class="fas fa-crown" style="font-size: 70px; color: var(--gold); margin-bottom: 20px; filter: drop-shadow(0 0 20px var(--gold));"></i>
         <h2 style="font-size: 28px; text-align: center;">TARGET <span style="color:var(--gold)">TERCAPAI!</span></h2>
-        <p style="color: var(--green); margin-top: 10px; font-weight: 600;">Hebat Jih, barang impianmu sudah didepan mata!</p>
+        <p style="color: var(--green); margin-top: 10px; font-weight: 600; text-align: center; padding: 0 20px;">Hebat Jih, barang impianmu sudah didepan mata!</p>
     </div>
 
     <div id="scene0" class="scene active">
@@ -123,9 +123,9 @@
                 <i class="fas fa-bullseye"></i>
                 <input type="number" id="inNominal" placeholder="Nominal Target (Rp)">
             </div>
-            <div style="text-align: left; margin-bottom: 20px;">
-                <label style="font-size: 10px; color: var(--text-dim); margin-left: 5px; display: block; margin-bottom: 8px;">FOTO BARANG (OPTIONAL)</label>
-                <input type="file" id="inFoto" accept="image/*" capture="environment" style="font-size: 11px; color: var(--gold);">
+            <div style="text-align: left; margin-bottom: 25px;">
+                <label style="font-size: 10px; color: var(--text-dim); margin-left: 5px; display: block; margin-bottom: 10px;">FOTO BARANG (GALERI / KAMERA)</label>
+                <input type="file" id="inFoto" accept="image/*" style="font-size: 11px; color: var(--gold); width: 100%;">
             </div>
             <button class="btn btn-gold" onclick="initApp()" style="width: 100%;">MULAI NABUNG</button>
         </div>
@@ -172,7 +172,7 @@
     </div>
 
     <script>
-        const KEY = 'NABUNGYUK_FINAL_STABLE';
+        const KEY = 'NABUNGYUK_FINAL_STABLE_V4';
         const LEN = 565.48;
         let store = JSON.parse(localStorage.getItem(KEY)) || { target: 0, saved: 0, last: 0, img: '', done: false };
 
@@ -201,19 +201,16 @@
             document.getElementById('txtSaved').innerText = "Rp " + fmt.format(store.saved);
             document.getElementById('txtTarget').innerText = "Target: Rp " + fmt.format(store.target);
             
-            // Last Transaction Color
             const l = document.getElementById('txtLast');
             if(store.last === 0) { l.style.color = 'var(--text-dim)'; l.innerHTML = 'Belum ada transaksi'; }
             else if(store.last > 0) { l.style.color = 'var(--green)'; l.innerHTML = `<i class="fas fa-caret-up"></i> +Rp ${fmt.format(store.last)}`; }
             else { l.style.color = 'var(--red)'; l.innerHTML = `<i class="fas fa-caret-down"></i> -Rp ${fmt.format(Math.abs(store.last))}`; }
 
-            // Progress
             document.getElementById('progCircle').style.strokeDashoffset = LEN - (p/100 * LEN);
             
-            // Image
             if(store.img) { const i = document.getElementById('displayImg'); i.src = store.img; i.style.display = 'block'; }
+            else { document.getElementById('displayImg').style.display = 'none'; }
 
-            // Goal State
             if(p >= 100) {
                 document.getElementById('controlPanel').style.display = 'none';
                 document.getElementById('finishPanel').style.display = 'block';
